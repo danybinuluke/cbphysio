@@ -64,7 +64,7 @@ const Header = () => {
 
         {/* Desktop Locate Us Button */}
         <div className="hidden md:flex items-center space-x-4">
-          <Button className={cn('bg-transparent hover:bg-gray-200', textColorClass)}>
+          <Button className={cn('bg-transparent hover:bg-chart-2/90', textColorClass)}>
             <MapIcon className={cn('mr-2 h-4 w-4', iconColorClass)} /> Locate Us
           </Button>
         </div>

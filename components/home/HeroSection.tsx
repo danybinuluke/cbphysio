@@ -6,9 +6,9 @@ import { CalendarDays, ArrowRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const backgroundImages = [
-  'https://images.pexels.com/photos/5473177/pexels-photo-5473177.jpeg',
-  'https://images.unsplash.com/photo-1706353399656-210cca727a33?q=80&w=1470&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1648638810931-60d2d55d052e?q=80&w=1470&auto=format&fit=crop',
+  'https://mobiphysio.in/assets/theme/img/slider/pain-management-treatment.webp',
+  'https://mobiphysio.in/assets/theme/img/slider/cryotherapy-technique.webp',
+  'https://mobiphysio.in/assets/theme/img/slider/sports-injury.webp',
 ];
 
 const headingText = "Precision Care for Pain-free Mobility";
@@ -55,7 +55,7 @@ const HeroSection = () => {
   }, []);
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center text-white overflow-hidden">
+    <section className="relative min-h-screen flex items-center justify-start text-white overflow-hidden">
       <div className="absolute inset-0 -z-10">
         <AnimatePresence mode="wait">
           <motion.div
@@ -71,7 +71,7 @@ const HeroSection = () => {
         <div className="absolute inset-0 bg-gradient-to-r from-chart-3/80 to-black/60" />
       </div>
 
-      <div className="text-center max-w-2xl px-4">
+      <div className="text-left max-w-2xl px-4 ml-10">
         <h1 className="text-4xl md:text-6xl font-bold mb-6 inline-block">
           <span>{headingDisplay}</span>
           <span className="inline-block w-[1ch] animate-blink align-baseline">|</span>
@@ -81,14 +81,14 @@ const HeroSection = () => {
           {paragraphDisplay}
         </p>
 
-        <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6">
-          <Button>
-            <CalendarDays className="mr-2 h-5 w-5" />
+        <div className="flex flex-col sm:flex-row items-start justify-start space-y-4 sm:space-y-0 sm:space-x-6">
+          <Button variant={"interactive-hover"}>
+            <CalendarDays className="mr-2 h-6 w-6" />
             Book Appointment
           </Button>
           <div className="text-center"> {/* Add text-center to the parent div */}
-             <Button>
-                Request Callback <ArrowRight className="ml-2" /> {/* Consider adjusting ml-10 to ml-2 or ml-3 */}
+             <Button variant={"interactive-hover"}>
+                Request Callback {/* Consider adjusting ml-10 to ml-2 or ml-3 */}
              </Button>
           </div>
         </div>

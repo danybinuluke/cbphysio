@@ -43,7 +43,8 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="bg-primary text-primary-foreground">
+    // Changed background color from bg-primary to bg-[#00A86B]
+    <footer className="bg-[#3a4732] text-primary-foreground">
       <div className="container mx-auto px-4 pt-16 pb-8">
         <div className="grid grid-cols-1 md:grid-cols-6 gap-10">
           {/* Logo and info */}
@@ -51,11 +52,11 @@ const Footer = () => {
             <Link href="/" className="flex items-center space-x-2 mb-6">
                 <div>
                    <Image
-                       src="/cb1.png"
-                       alt="PhysioCare Logo"
-                       width={250}
-                       height={250}
-                       className="object-cover w-75 h-75"
+                        src="/cb1.png"
+                        alt="PhysioCare Logo"
+                        width={250}
+                        height={250}
+                        className="object-cover w-75 h-75"
                     />
                 </div>
             </Link>

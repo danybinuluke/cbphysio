@@ -6,6 +6,17 @@ import Image from 'next/image';
 import { Menu, X, MapIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import GooeyNav from '@/components/ui/GooeyNav';
+
+const menuItems = [
+  { label: 'Home', href: '/' },
+  { label: 'About', href: '/about' },
+  { label: 'Services', href: '/services' },
+  { label: 'Team', href: '/team' },
+  { label: 'Testimonials', href: '/testimonials' },
+  { label: 'Blogs', href: '/blogs' },
+  { label: 'Contact', href: '/contact' },
+];
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -15,22 +26,14 @@ const Header = () => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 10);
     };
-
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const toggleMenu = () => setIsOpen(!isOpen);
 
-  const menuItems = [
-    { name: 'Home', href: '/' },
-    { name: 'About', href: '/about' },
-    { name: 'Services', href: '/services' },
-    { name: 'Team', href: '/team' },
-    { name: 'Testimonials', href: '/testimonials' },
-    { name: 'News', href: '/news' },
-    { name: 'Contact', href: '/contact' },
-  ];
+  const textColorClass = scrolled ? 'text-black' : 'text-white';
+  const iconColorClass = scrolled ? 'text-black' : 'text-white';
 
   return (
     <header
@@ -47,45 +50,26 @@ const Header = () => {
           <Image
             src="/cb.png"
             alt="CB Physiotherapy Logo"
-            width={160}    // Set appropriate size
+            width={160}
             height={60}
             className="object-contain"
             priority
           />
         </Link>
 
-        {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center space-x-8">
-          <ul className="flex space-x-8">
-            {menuItems.map((item) => (
-              <li key={item.name}>
-                <Link
-                  href={item.href}
-                  className={cn(
-                    'text-sm font-medium hover:text-chart-2 transition-colors',
-                    scrolled ? 'text-primary' : 'text-white'
-                  )}
-                >
-                  {item.name}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </nav>
+        {/* Desktop GooeyNav */}
+        <div className="hidden md:block">
+          <GooeyNav items={menuItems} scrolled={scrolled} />
+        </div>
 
-        {/* Contact Button */}
+        {/* Desktop Locate Us Button */}
         <div className="hidden md:flex items-center space-x-4">
-          <Button
-            className={cn(
-              'bg-transparent hover:bg-chart-2/90',
-              scrolled ? 'text-primary' : 'text-white'
-            )}
-          >
-            <MapIcon className="mr-2 h-4 w-4" /> Locate Us
+          <Button className={cn('bg-transparent hover:bg-gray-200', textColorClass)}>
+            <MapIcon className={cn('mr-2 h-4 w-4', iconColorClass)} /> Locate Us
           </Button>
         </div>
 
-        {/* Mobile Menu Button */}
+        {/* Mobile menu toggle */}
         <button
           onClick={toggleMenu}
           className="md:hidden p-2 rounded-md"
@@ -93,18 +77,14 @@ const Header = () => {
           aria-label="Toggle menu"
         >
           {isOpen ? (
-            <X
-              className={cn('h-6 w-6', scrolled ? 'text-primary' : 'text-white')}
-            />
+            <X className={cn('h-6 w-6', iconColorClass)} />
           ) : (
-            <Menu
-              className={cn('h-6 w-6', scrolled ? 'text-primary' : 'text-white')}
-            />
+            <Menu className={cn('h-6 w-6', iconColorClass)} />
           )}
         </button>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile dropdown menu */}
       <div
         className={cn(
           'md:hidden absolute top-full left-0 right-0 bg-white shadow-md transition-all duration-300 ease-in-out overflow-hidden',
@@ -113,18 +93,18 @@ const Header = () => {
       >
         <ul className="flex flex-col py-4">
           {menuItems.map((item) => (
-            <li key={item.name}>
+            <li key={item.label}>
               <Link
                 href={item.href}
-                className="block px-6 py-3 text-primary hover:bg-muted transition-colors"
+                className="block px-6 py-3 text-black hover:bg-gray-100 transition-colors"
                 onClick={() => setIsOpen(false)}
               >
-                {item.name}
+                {item.label}
               </Link>
             </li>
           ))}
           <li className="px-6 py-4">
-            <Button className="h-75 w-75 text-black">
+            <Button className="w-full text-black bg-gray-200 hover:bg-gray-300">
               <MapIcon className="mr-2" /> Locate Us
             </Button>
           </li>

@@ -14,6 +14,7 @@ import LatestNewsSection from '@/components/home/LatestNewsSection';
 import ContactSection from '@/components/home/ContactSection';
 import Footer from '@/components/layout/Footer';
 import Header from '@/components/layout/Header';
+import ServicesMarquee from '@/components/home/ServicesMarquee';
 
 const HomePage = () => {
   return (
@@ -22,6 +23,7 @@ const HomePage = () => {
       <main>
         <HeroSection />
         <ServicesSection />
+        <ServicesMarquee />
         <TeamSection />
         <TestimonialsSection />
         <LatestNewsSection />

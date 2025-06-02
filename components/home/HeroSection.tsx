@@ -9,10 +9,12 @@ const backgroundImages = [
   'https://mobiphysio.in/assets/theme/img/slider/pain-management-treatment.webp',
   'https://mobiphysio.in/assets/theme/img/slider/cryotherapy-technique.webp',
   'https://mobiphysio.in/assets/theme/img/slider/sports-injury.webp',
+  'https://mobiphysio.in/assets/theme/img/slider/women-wellness.webp',
+  'https://mobiphysio.in/assets/theme/img/slider/lifestyle-management-1-1.webp'
 ];
 
 const headingText = "Precision Care for Pain-free Mobility";
-const paragraphText = "Transforming physiotherapy with AI-powered diagnosis and personalized treatment pathways --- delivering effective pain-relief & mobility care across Clinics, Homes & Tele-Rehab.";
+const paragraphText = "Transforming physiotherapy with AI-powered diagnosis and personalized treatment pathways delivering effective pain-relief & mobility care across Clinics, Homes & Tele-Rehab.";
 
 const HeroSection = () => {
   const [currentIndex, setCurrentIndex] = useState(0);

@@ -17,39 +17,61 @@ export default function RootLayout({ children }: RootLayoutProps) {
   const [showReveal, setShowReveal] = useState(false);
 
   useEffect(() => {
-    // Simulate the loading duration. This should match or slightly exceed
-    // the duration of your LoadingScreen's progress bar animation (5 seconds).
-    const loadingDuration = 5000; // 5000ms = 5 seconds
+    const loadingDuration = 5000; // 5 seconds
 
     const timer = setTimeout(() => {
-      setIsLoading(false); // Hide the loading screen
-      setShowReveal(true);  // Start the reveal animation
+      setIsLoading(false);
+      setShowReveal(true);
     }, loadingDuration);
 
-    return () => clearTimeout(timer); // Clean up the timer
+    return () => clearTimeout(timer);
   }, []);
 
-  // After the loading screen, remove the overflow-hidden class to allow scrolling
   useEffect(() => {
     if (!isLoading && !showReveal) {
       document.body.style.overflow = 'auto';
+    } else {
+      document.body.style.overflow = 'hidden';
     }
   }, [isLoading, showReveal]);
 
   return (
     <html lang="en">
-      {/* Apply Inter font to the body */}
-      <body className={`${inter.className} ${isLoading ? 'overflow-hidden' : ''}`}>
+      <body className={inter.className}>
+        {/* SVG Gooey Filter Definition */}
+        <svg
+          className="absolute w-0 h-0 pointer-events-none"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <defs>
+            <filter id="goo" x="0" y="0" width="200%" height="200%" colorInterpolationFilters="sRGB">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="8" result="blur" />
+              <feColorMatrix
+                in="blur"
+                mode="matrix"
+                values="
+                  1 0 0 0 0
+                  0 1 0 0 0
+                  0 0 1 0 0
+                  0 0 0 20 -10"
+                result="goo"
+              />
+              <feBlend in="SourceGraphic" in2="goo" />
+            </filter>
+          </defs>
+        </svg>
+
         {/* Loading Screen */}
         <AnimatePresence>
           {isLoading && (
             <motion.div
               key="loading-screen"
               initial={{ opacity: 1 }}
-              exit={{ opacity: 0, transition: { duration: 0.5, ease: "easeOut" } }}
-              className="fixed inset-0 z-50" // High z-index to cover everything
+              exit={{ opacity: 0, transition: { duration: 0.5, ease: 'easeOut' } }}
+              className="fixed inset-0 z-50"
             >
-              <LoadingScreen /> {/* Render your LoadingScreen component */}
+              <LoadingScreen />
             </motion.div>
           )}
         </AnimatePresence>
@@ -60,31 +82,24 @@ export default function RootLayout({ children }: RootLayoutProps) {
             <motion.div
               key="reveal-animation"
               initial={{
-                clipPath: 'circle(0% at 50% 50%)', // Start as a tiny circle in the center
-                backgroundColor: 'rgb(249, 250, 251)', // Match your HomePage's background color (bg-gray-50)
+                clipPath: 'circle(0% at 50% 50%)',
+                backgroundColor: 'rgb(249, 250, 251)',
               }}
               animate={{
-                clipPath: 'circle(150% at 50% 50%)', // Expand beyond screen to reveal
-                backgroundColor: 'rgba(249, 250, 251, 0)', // Fade out background color
+                clipPath: 'circle(150% at 50% 50%)',
+                backgroundColor: 'rgba(249, 250, 251, 0)',
               }}
-              exit={{ opacity: 0 }} // In case it needs to exit later (e.g. if you navigate away)
-              transition={{
-                duration: 1.5, // Duration of the reveal animation
-                ease: "easeInOut"
-              }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 1.5, ease: 'easeInOut' }}
               onAnimationComplete={() => {
-                // Delay hiding the reveal overlay to let the fade finish smoothly
-                setTimeout(() => {
-                  setShowReveal(false);
-                }, 300);
+                setTimeout(() => setShowReveal(false), 300);
               }}
-              className="fixed inset-0 z-40" // Below loading screen, above content
+              className="fixed inset-0 z-40"
             />
           )}
         </AnimatePresence>
 
-        {/* Main Content (HomePage and other pages) */}
-        {/* Only show children after the reveal animation has started */}
+        {/* Main Content */}
         {!isLoading && children}
       </body>
     </html>

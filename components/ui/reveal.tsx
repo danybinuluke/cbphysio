@@ -5,7 +5,7 @@ import { useInView } from 'react-intersection-observer';
 import { useEffect } from 'react';
 
 interface RevealProps {
-  children: React.ReactNode;
+  children: React.ReactNode | ((props: { inView: boolean }) => React.ReactNode);
   className?: string;
   delay?: number;
 }
@@ -32,7 +32,7 @@ const Reveal = ({ children, className, delay = 0 }: RevealProps) => {
         visible: { opacity: 1, y: 0 },
       }}
     >
-      {children}
+      {typeof children === 'function' ? children({ inView }) : children}
     </motion.div>
   );
 };

@@ -81,7 +81,11 @@ const GooeyNav: React.FC<GooeyNavProps> = ({
         particle.style.setProperty("--end-y", `${p.end[1]}px`);
         particle.style.setProperty("--time", `${p.time}ms`);
         particle.style.setProperty("--scale", `${p.scale}`);
-        particle.style.setProperty("--color", `var(--color-${p.color}, white)`);
+        // Better color handling for scrolled state
+        const particleColor = scrolled 
+          ? `var(--color-${p.color}-dark, #333)` 
+          : `var(--color-${p.color}, white)`;
+        particle.style.setProperty("--color", particleColor);
         particle.style.setProperty("--rotate", `${p.rotate}deg`);
         point.classList.add("point");
         particle.appendChild(point);
@@ -167,7 +171,7 @@ const GooeyNav: React.FC<GooeyNavProps> = ({
     });
     resizeObserver.observe(containerRef.current);
     return () => resizeObserver.disconnect();
-  }, [activeIndex]);
+  }, [activeIndex, scrolled]);
 
   return (
     <>
@@ -175,7 +179,28 @@ const GooeyNav: React.FC<GooeyNavProps> = ({
         {`
           :root {
             --linear-ease: linear(0, 0.068, 0.19 2.7%, 0.804 8.1%, 1.037, 1.199 13.2%, 1.245, 1.27 15.8%, 1.274, 1.272 17.4%, 1.249 19.1%, 0.996 28%, 0.949, 0.928 33.3%, 0.926, 0.933 36.8%, 1.001 45.6%, 1.013, 1.019 50.8%, 1.018 54.4%, 1 63.1%, 0.995 68%, 1.001 85%, 1);
+            
+            /* Color definitions for particles */
+            --color-1: #3b82f6;
+            --color-2: #10b981;
+            --color-3: #f59e0b;
+            --color-4: #ef4444;
+            
+            /* Dark versions for scrolled state */
+            --color-1-dark: #1d4ed8;
+            --color-2-dark: #059669;
+            --color-3-dark: #d97706;
+            --color-4-dark: #dc2626;
           }
+          
+          .gooey-nav-container {
+            --text-color: ${scrolled ? '#000' : '#fff'};
+            --text-shadow: ${scrolled ? 'none' : '0 1px 1px hsl(205deg 30% 10% / 0.2)'};
+            --active-bg: ${scrolled ? '#000' : '#fff'};
+            --active-text: ${scrolled ? '#fff' : '#000'};
+            --blend-mode: ${scrolled ? 'multiply' : 'lighten'};
+          }
+          
           .effect {
             position: absolute;
             opacity: 1;
@@ -183,18 +208,27 @@ const GooeyNav: React.FC<GooeyNavProps> = ({
             display: grid;
             place-items: center;
             z-index: 1;
+            transition: all 0.3s ease;
           }
+          
           .effect.text {
-            color: ${scrolled ? 'black' : 'white'};
-            transition: color 0.3s ease;
+            color: var(--text-color);
+            text-shadow: var(--text-shadow);
+            transition: all 0.3s ease;
           }
+          
           .effect.text.active {
-            color: black;
+            color: var(--active-text);
+            text-shadow: none;
+            font-weight: 500;
           }
+          
           .effect.filter {
             filter: blur(7px) contrast(100) blur(0);
-            mix-blend-mode: lighten;
+            mix-blend-mode: var(--blend-mode);
+            transition: all 0.3s ease;
           }
+          
           .effect.filter::before {
             content: "";
             position: absolute;
@@ -202,25 +236,37 @@ const GooeyNav: React.FC<GooeyNavProps> = ({
             z-index: -2;
             background: transparent;
           }
+          
           .effect.filter::after {
             content: "";
             position: absolute;
             inset: 0;
-            background: white;
+            background: var(--active-bg);
             transform: scale(0);
             opacity: 0;
             z-index: -1;
             border-radius: 9999px;
+            transition: all 0.3s ease;
           }
+          
           .effect.active::after {
-            animation: pill 0.3s ease both;
+            animation: pill 0.4s cubic-bezier(0.4, 0, 0.2, 1) both;
           }
+          
           @keyframes pill {
-            to {
+            0% {
+              transform: scale(0);
+              opacity: 0;
+            }
+            50% {
+              opacity: 0.8;
+            }
+            100% {
               transform: scale(1);
               opacity: 1;
             }
           }
+          
           .particle,
           .point {
             display: block;
@@ -230,18 +276,22 @@ const GooeyNav: React.FC<GooeyNavProps> = ({
             border-radius: 9999px;
             transform-origin: center;
           }
+          
           .particle {
             --time: 5s;
             position: absolute;
-            top: calc(50% - 8px);
-            left: calc(50% - 8px);
-            animation: particle calc(var(--time)) ease 1 -350ms;
+            top: calc(50% - 10px);
+            left: calc(50% - 10px);
+            animation: particle calc(var(--time)) cubic-bezier(0.4, 0, 0.2, 1) 1 -350ms;
           }
+          
           .point {
             background: var(--color);
             opacity: 1;
-            animation: point calc(var(--time)) ease 1 -350ms;
+            animation: point calc(var(--time)) cubic-bezier(0.4, 0, 0.2, 1) 1 -350ms;
+            box-shadow: 0 0 20px var(--color);
           }
+          
           @keyframes particle {
             0% {
               transform: rotate(0deg) translate(calc(var(--start-x)), calc(var(--start-y)));
@@ -251,17 +301,18 @@ const GooeyNav: React.FC<GooeyNavProps> = ({
             70% {
               transform: rotate(calc(var(--rotate) * 0.5)) translate(calc(var(--end-x) * 1.2), calc(var(--end-y) * 1.2));
               opacity: 1;
-              animation-timing-function: ease;
+              animation-timing-function: ease-out;
             }
             85% {
               transform: rotate(calc(var(--rotate) * 0.66)) translate(calc(var(--end-x)), calc(var(--end-y)));
-              opacity: 1;
+              opacity: 0.8;
             }
             100% {
               transform: rotate(calc(var(--rotate) * 1.2)) translate(calc(var(--end-x) * 0.5), calc(var(--end-y) * 0.5));
-              opacity: 1;
+              opacity: 0;
             }
           }
+          
           @keyframes point {
             0% {
               transform: scale(0);
@@ -269,7 +320,8 @@ const GooeyNav: React.FC<GooeyNavProps> = ({
               animation-timing-function: cubic-bezier(0.55, 0, 1, 0.45);
             }
             25% {
-              transform: scale(calc(var(--scale) * 0.25));
+              transform: scale(calc(var(--scale) * 0.3));
+              opacity: 0.6;
             }
             38% {
               opacity: 1;
@@ -277,57 +329,84 @@ const GooeyNav: React.FC<GooeyNavProps> = ({
             65% {
               transform: scale(var(--scale));
               opacity: 1;
-              animation-timing-function: ease;
+              animation-timing-function: ease-out;
             }
             85% {
-              transform: scale(var(--scale));
-              opacity: 1;
+              transform: scale(calc(var(--scale) * 0.9));
+              opacity: 0.8;
             }
             100% {
               transform: scale(0);
               opacity: 0;
             }
           }
-          li.active {
-            color: black;
-            text-shadow: none;
+          
+          .gooey-nav-item {
+            color: var(--text-color);
+            text-shadow: var(--text-shadow);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: visible;
           }
-          li.active::after {
+          
+          .gooey-nav-item:hover {
+            transform: translateY(-1px);
+          }
+          
+          .gooey-nav-item.active {
+            color: var(--active-text);
+            text-shadow: none;
+            font-weight: 500;
+          }
+          
+          .gooey-nav-item.active::after {
             opacity: 1;
             transform: scale(1);
           }
-          li::after {
+          
+          .gooey-nav-item::after {
             content: "";
             position: absolute;
             inset: 0;
-            border-radius: 8px;
-            background: white;
+            border-radius: 9999px;
+            background: var(--active-bg);
             opacity: 0;
             transform: scale(0);
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             z-index: -1;
+            box-shadow: ${scrolled ? '0 4px 20px rgba(0,0,0,0.1)' : '0 4px 20px rgba(255,255,255,0.2)'};
+          }
+          
+          .gooey-nav-item a {
+            position: relative;
+            z-index: 2;
+            text-decoration: none;
+            display: block;
+            transition: all 0.3s ease;
+          }
+          
+          .gooey-nav-item a:focus {
+            outline: 2px solid ${scrolled ? '#3b82f6' : '#fff'};
+            outline-offset: 2px;
+            border-radius: 4px;
           }
         `}
       </style>
-      <div className="relative" ref={containerRef}>
+      <div className="relative gooey-nav-container" ref={containerRef}>
         <nav
           className="flex relative"
           style={{ transform: "translate3d(0,0,0.01px)" }}
         >
           <ul
             ref={navRef}
-            className="flex gap-8 list-none p-0 px-4 m-0 relative z-[3]"
-            style={{
-              color: scrolled ? 'black' : 'white',
-              textShadow: scrolled ? 'none' : '0 1px 1px hsl(205deg 30% 10% / 0.2)',
-            }}
+            className="flex gap-6 list-none p-0 px-4 m-0 relative z-[3]"
           >
             {items.map((item, index) => (
               <li
                 key={index}
-                className={`py-[0.6em] px-[1em] rounded-full relative cursor-pointer transition-[background-color_color_box-shadow] duration-300 ease shadow-[0_0_0.5px_1.5px_transparent] ${
-                  scrolled ? 'text-black' : 'text-white'
-                } ${activeIndex === index ? "active" : ""}`}
+                className={`gooey-nav-item py-[0.7em] px-[1.2em] rounded-full relative cursor-pointer ${
+                  activeIndex === index ? "active" : ""
+                }`}
                 onClick={(e) => handleClick(e, index)}
               >
                 <a

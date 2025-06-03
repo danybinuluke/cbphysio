@@ -104,7 +104,7 @@ const Header = () => {
             </li>
           ))}
           <li className="px-6 py-4">
-            <Button className="w-full text-black bg-gray-200 hover:bg-gray-300">
+            <Button className="w-full text-black bg-gray-200 hover:bg-chart-2/90">
               <MapIcon className="mr-2" /> Locate Us
             </Button>
           </li>

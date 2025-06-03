@@ -120,7 +120,7 @@ const Footer = () => {
         <Separator className="my-8 bg-primary-foreground/20" />
         
         <div className="flex flex-col md:flex-row justify-between items-center text-primary-foreground/70 text-sm">
-          <p>© {currentYear} Curebooth Healthcare Services Pvt. Ltd. All rights reserved.</p>
+          <p>© {currentYear} Mobiphysio Healthcare Services Pvt. Ltd. All rights reserved.</p>
           <div className="mt-4 md:mt-0">
             <Link href="/" className="hover:text-chart-2 transition-colors">Privacy Policy</Link>
             <span className="mx-2">|</span>

@@ -8,8 +8,8 @@ import { Button } from '@/components/ui/button';
 import { NavigationMenu } from '@/components/ui/navigation-menu';
 import HeroSection from '@/components/home/HeroSection';
 import ServicesSection from '@/components/home/ServicesSection';
-import TeamSection from '@/components/home/TeamSection';
-import TestimonialsSection from '@/components/home/TestimonialsSection';
+import AboutSection from '@/components/home/AboutSection';
+import PainSection from '@/components/home/PainSection';
 import LatestNewsSection from '@/components/home/LatestNewsSection';
 import ContactSection from '@/components/home/ContactSection';
 import Footer from '@/components/layout/Footer';
@@ -24,8 +24,8 @@ const HomePage = () => {
         <HeroSection />
         <ServicesSection />
         <ServicesMarquee />
-        <TeamSection />
-        <TestimonialsSection />
+        <AboutSection />
+        <PainSection />
         <LatestNewsSection />
         <ContactSection />
       </main>

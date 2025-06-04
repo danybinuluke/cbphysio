@@ -78,10 +78,10 @@ export function FancyTestimonialsSlider({
             <Transition
               key={index}
               show={active === index}
-              enter="transition ease-in-out duration-500 delay-200 order-first"
+              enter="transition ease-in-out duration-100 delay-30 order-first"
               enterFrom="opacity-0 -translate-x-4"
               enterTo="opacity-100 translate-x-0"
-              leave="transition ease-out duration-300 delay-300 absolute"
+              leave="transition ease-out duration-30 delay-30 absolute"
               leaveFrom="opacity-100 translate-x-0"
               leaveTo="opacity-0 translate-x-4"
               beforeEnter={() => heightFix()}

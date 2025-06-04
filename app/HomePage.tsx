@@ -10,11 +10,12 @@ import HeroSection from '@/components/home/HeroSection';
 import ServicesSection from '@/components/home/ServicesSection';
 import AboutSection from '@/components/home/AboutSection';
 import PainSection from '@/components/home/PainSection';
-import LatestNewsSection from '@/components/home/LatestNewsSection';
+import ChooseSection from '@/components/home/ChooseSection';
 import ContactSection from '@/components/home/ContactSection';
 import Footer from '@/components/layout/Footer';
 import Header from '@/components/layout/Header';
 import ServicesMarquee from '@/components/home/ServicesMarquee';
+import ExperienceSection from '@/components/home/ExperienceSection';
 
 const HomePage = () => {
   return (
@@ -26,8 +27,9 @@ const HomePage = () => {
         <ServicesMarquee />
         <AboutSection />
         <PainSection />
-        <LatestNewsSection />
+        <ChooseSection />
         <ContactSection />
+        <ExperienceSection />
       </main>
       <Footer />
     </div>

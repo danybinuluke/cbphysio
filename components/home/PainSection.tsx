@@ -5,6 +5,7 @@ import { Canvas, ThreeEvent } from '@react-three/fiber';
 import { OrbitControls, useGLTF, Html } from '@react-three/drei';
 import * as THREE from 'three';
 import { motion } from 'framer-motion';
+import Reveal from '../ui/reveal';
 
 const PART_TO_PAIN_MAPPING: Record<string, string> = {
   Hand1: 'Hand Pain',
@@ -61,7 +62,7 @@ const PainPoint = ({ position, painType }: PainPointData) => (
       <meshStandardMaterial color="red" emissive="red" emissiveIntensity={2} />
     </mesh>
     <Html position={[position[0], position[1] + 0.1, position[2]]} center>
-      <div className="flex items-center space-x-2 text-white bg-black/80 p-2 rounded-lg shadow-lg text-sm">
+      <div className="z-20 flex items-center space-x-2 text-white bg-black/80 p-2 rounded-lg shadow-lg text-sm">
         <div className="w-5 h-5 text-red-400">{PainIcons[painType] || PainIcons['General Pain']}</div>
         <h3 className="font-semibold">{painType}</h3>
       </div>
@@ -160,16 +161,21 @@ const TestimonialsSection = () => {
     ));
 
   return (
-    <section className="w-full bg-black text-white py-10 overflow-hidden">
+    <section className="relative z-10 w-full bg-black text-white py-10 overflow-hidden">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-4">
-          <h2 className="text-3xl md:text-4xl font-bold mb-3">{splitTextLines('Click on body parts or tags to highlight pain locations')}</h2>
-          <p className="text-lg text-gray-300 max-w-xl mx-auto">{splitTextLines('Understand your discomfort by clicking pain points')}</p>
-        </div>
+        <Reveal>
+          <div className="text-center mb-4">
+            <h2 className="text-3xl md:text-4xl font-bold mb-3">
+              {splitTextLines('Click on body parts or tags to highlight pain locations')}
+            </h2>
+            <p className="text-lg text-gray-300 max-w-xl mx-auto">
+              {splitTextLines('Understand your discomfort by clicking pain points on the 3D Interactive Model')}
+            </p>
+          </div>
+        </Reveal>
 
         <div className="flex flex-col lg:flex-row gap-6">
-          {/* Left: 3D Model */}
-          <div className="w-full lg:w-2/3 h-[60vh]">
+          <Reveal className="w-full lg:w-2/3 h-[60vh]">
             <Canvas camera={{ position: [0, 2.8, 6], fov: 50 }}>
               <ambientLight intensity={0.7} />
               <directionalLight position={[0, 3, 3]} intensity={1.2} />
@@ -179,10 +185,9 @@ const TestimonialsSection = () => {
               )}
               <OrbitControls enableZoom={false} enablePan={false} />
             </Canvas>
-          </div>
+          </Reveal>
 
-          {/* Right (or bottom): Pain Details */}
-          <div className="w-full lg:w-1/3 flex flex-col justify-start text-left">
+          <Reveal className="w-full lg:w-1/3 flex flex-col justify-start text-left">
             <div className="flex flex-wrap gap-2 mb-3">
               {uniquePainTypes.map((pain, index) => (
                 <button
@@ -211,7 +216,7 @@ const TestimonialsSection = () => {
                 </p>
               </div>
             )}
-          </div>
+          </Reveal>
         </div>
       </div>
     </section>

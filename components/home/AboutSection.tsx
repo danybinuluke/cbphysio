@@ -42,7 +42,7 @@ const AboutSection = () => {
           <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-gray-50 mb-3">
             <Clock className="w-6 h-6 text-blue-600" />
           </div>
-          <div className="text-3xl font-bold text-blue-600 mb-1">{yearsCount}+</div>
+          <div className="text-3xl font-bold text-red-600 mb-1">{yearsCount}+</div>
           <div className="text-sm text-gray-600">Years of Experience</div>
         </div>
 
@@ -50,7 +50,7 @@ const AboutSection = () => {
           <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-gray-50 mb-3">
             <Users className="w-6 h-6 text-blue-600" />
           </div>
-          <div className="text-3xl font-bold text-blue-600 mb-1">{patientsCount}+</div>
+          <div className="text-3xl font-bold text-red-600 mb-1">{patientsCount}+</div>
           <div className="text-sm text-gray-600">Happy Patients</div>
         </div>
       </div>

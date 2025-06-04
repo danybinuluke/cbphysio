@@ -1,87 +1,122 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Facebook, Twitter, Instagram, Linkedin, ArrowRight } from 'lucide-react';
+import { Facebook, Instagram, Linkedin, Youtube, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
 
+// Custom X (Twitter) Icon as SVG
+const XIcon = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="currentColor"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <path d="M20.185 3H23L15.385 10.79L24 21H16.635L10.98 14.185L4.5 21H1.5L9.645 12.675L1.5 3H9L14.175 9.225L20.185 3ZM18.57 19.5H20.565L7.02 4.35H4.905L18.57 19.5Z" />
+  </svg>
+);
+
 const Footer = () => {
   const currentYear = new Date().getFullYear();
-  
+
   const footerLinks = [
     {
       title: 'Services',
       links: [
-        { label: 'Sports Injury Rehabilitation', href: '/services/sports-injury' },
-        { label: 'Manual Therapy', href: '/services/manual-therapy' },
-        { label: 'Post-Surgical Rehabilitation', href: '/services/post-surgical' },
-        { label: 'Chronic Pain Management', href: '/services/chronic-pain' },
-        { label: 'Pediatric Physiotherapy', href: '/services/pediatric' }
-      ]
+        { label: 'Lifestyle Management', href: '/services/lifestyle-management' },
+        { label: 'Pain Management', href: '/services/pain-management' },
+        { label: 'Sports Injuries', href: '/services/sports-injuries' },
+        { label: 'CryoTherapy', href: '/services/crytherapy' },
+        { label: 'Women Wellness', href: '/services/women-wellness' },
+      ],
     },
     {
-      title: 'Company',
+      title: 'Quick Links',
       links: [
         { label: 'About Us', href: '/about' },
         { label: 'Our Team', href: '/team' },
         { label: 'Testimonials', href: '/testimonials' },
-        { label: 'News & Blog', href: '/news' },
-        { label: 'Careers', href: '/careers' }
-      ]
+        { label: 'Blogs', href: '/blogs' },
+        { label: 'Case Studies', href: '/case-studies' },
+      ],
     },
     {
       title: 'Support',
       links: [
         { label: 'Contact Us', href: '/contact' },
         { label: 'FAQ', href: '/faq' },
-        { label: 'Book Appointment', href: '/appointments' },
+        { label: 'Book Appointment', href: '/book-appointment' },
         { label: 'Privacy Policy', href: '/privacy' },
-        { label: 'Terms of Service', href: '/terms' }
-      ]
-    }
+        { label: 'Terms of Service', href: '/terms' },
+      ],
+    },
   ];
 
   return (
-    // Changed background color from bg-primary to bg-[#00A86B]
     <footer className="bg-[#3a4732] text-primary-foreground">
       <div className="container mx-auto px-4 pt-16 pb-8">
         <div className="grid grid-cols-1 md:grid-cols-6 gap-10">
-          {/* Logo and info */}
+          {/* Logo and Info */}
           <div className="md:col-span-2">
             <Link href="/" className="flex items-center space-x-2 mb-6">
-                <div>
-                   <Image
-                        src="/cb1.png"
-                        alt="PhysioCare Logo"
-                        width={250}
-                        height={250}
-                        className="object-cover w-75 h-75"
-                    />
-                </div>
+              <div>
+                <Image
+                  src="/cb1.png"
+                  alt="PhysioCare Logo"
+                  width={250}
+                  height={250}
+                  className="object-cover w-75 h-75"
+                />
+              </div>
             </Link>
-            
+
             <p className="text-primary-foreground/80 mb-6">
-              Providing expert physiotherapy care and rehabilitation services to help you 
-              recover, strengthen, and improve your quality of life.
+              Mobiphysio is a modern Physiotherapy Clinic in Coimbatore, situated near the iconic landmark at RS Puram.
+              Dr. T.R. Vandana, PT., Founder and Senior Physiotherapist, provides recovery-driven Physio Treatment with the
+              assistance of a team of specialized Physical Therapists.
             </p>
-            
+
             <div className="flex space-x-4">
-              <a href="#" className="h-10 w-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-chart-2 transition-colors">
+              <a
+                href="https://www.facebook.com/mobiphysioindia"
+                className="h-10 w-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-chart-2 transition-colors"
+                target="_blank" rel="noopener noreferrer"
+              >
                 <Facebook size={18} />
               </a>
-              <a href="#" className="h-10 w-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-chart-2 transition-colors">
-                <Twitter size={18} />
+              <a
+                href="https://twitter.com/PhysioMobi"
+                className="h-10 w-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-chart-2 transition-colors"
+                target="_blank" rel="noopener noreferrer"
+              >
+                <XIcon className="w-4 h-4" />
               </a>
-              <a href="#" className="h-10 w-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-chart-2 transition-colors">
+              <a
+                href="https://www.instagram.com/mobiphysio/"
+                className="h-10 w-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-chart-2 transition-colors"
+                target="_blank" rel="noopener noreferrer"
+              >
                 <Instagram size={18} />
               </a>
-              <a href="#" className="h-10 w-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-chart-2 transition-colors">
+              <a
+                href="https://www.linkedin.com/company/mobiphysio-physiotherapy/about/?viewAsMember=true"
+                className="h-10 w-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-chart-2 transition-colors"
+                target="_blank" rel="noopener noreferrer"
+              >
                 <Linkedin size={18} />
+              </a>
+              <a
+                href="https://www.youtube.com/@mobiphysio"
+                className="h-10 w-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-chart-2 transition-colors"
+                target="_blank" rel="noopener noreferrer"
+              >
+                <Youtube size={18} />
               </a>
             </div>
           </div>
-          
+
           {/* Links */}
           {footerLinks.map((section, idx) => (
             <div key={idx} className="md:col-span-1">
@@ -97,17 +132,17 @@ const Footer = () => {
               </ul>
             </div>
           ))}
-          
+
           {/* Newsletter */}
           <div className="md:col-span-2">
             <h3 className="font-semibold text-lg mb-4">Newsletter</h3>
             <p className="text-primary-foreground/80 mb-4">
               Subscribe to our newsletter for the latest news and expert health tips.
             </p>
-            
+
             <div className="flex gap-2">
-              <Input 
-                placeholder="Your email address" 
+              <Input
+                placeholder="Your email address"
                 className="bg-white/10 border-white/20 text-primary-foreground placeholder:text-primary-foreground/60"
               />
               <Button className="bg-chart-2 hover:bg-chart-2/90 text-white">
@@ -116,15 +151,19 @@ const Footer = () => {
             </div>
           </div>
         </div>
-        
+
         <Separator className="my-8 bg-primary-foreground/20" />
-        
+
         <div className="flex flex-col md:flex-row justify-between items-center text-primary-foreground/70 text-sm">
           <p>© {currentYear} Mobiphysio Healthcare Services Pvt. Ltd. All rights reserved.</p>
           <div className="mt-4 md:mt-0">
-            <Link href="/" className="hover:text-chart-2 transition-colors">Privacy Policy</Link>
+            <Link href="/" className="hover:text-chart-2 transition-colors">
+              Privacy Policy
+            </Link>
             <span className="mx-2">|</span>
-            <Link href="/terms" className="hover:text-chart-2 transition-colors">Terms of Service</Link>
+            <Link href="/terms" className="hover:text-chart-2 transition-colors">
+              Terms of Service
+            </Link>
           </div>
         </div>
       </div>

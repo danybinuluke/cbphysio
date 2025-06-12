@@ -41,7 +41,7 @@ const HighlightText = React.forwardRef<HTMLSpanElement, HighlightTextProps>(
     forwardedRef: React.Ref<HTMLSpanElement>
   ) => {
     // Create an internal ref to be used by the useInView hook.
-    const localRef = React.useRef<HTMLSpanElement>(null);
+    const localRef = React.useRef<HTMLSpanElement | null>(null) as React.MutableRefObject<HTMLSpanElement | null>;
 
     // Create a single callback ref that merges both the localRef and the forwardedRef.
     // This ensures both the useInView hook and any parent refs correctly receive the DOM element.

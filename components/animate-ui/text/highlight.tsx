@@ -11,8 +11,10 @@ import {
 
 import { cn } from '@/lib/utils';
 
-// Define the props for the HighlightText component, EXCLUDING the 'ref' prop directly
-type HighlightTextProps = HTMLMotionProps<'span'> & {
+// Define the props for the HighlightText component.
+// We explicitly OMIT the 'ref' property from HTMLMotionProps<'span'> because
+// React.forwardRef will handle the ref prop separately as the second argument.
+type HighlightTextProps = Omit<HTMLMotionProps<'span'>, 'ref'> & {
   text: string;
   color?: string;
   inView?: boolean;
@@ -21,7 +23,6 @@ type HighlightTextProps = HTMLMotionProps<'span'> & {
   transition?: Transition;
 };
 
-// Use React.forwardRef to properly receive the ref from parent components
 const HighlightText = React.forwardRef<HTMLSpanElement, HighlightTextProps>(
   (
     {
@@ -35,55 +36,64 @@ const HighlightText = React.forwardRef<HTMLSpanElement, HighlightTextProps>(
       style,
       ...props
     },
-    // The 'ref' is now the second argument provided by React.forwardRef
-    forwardedRef // Renamed to avoid confusion with localRef
+    // The ref from the parent component, passed as the second argument by React.forwardRef.
+    // Its type is React.Ref<HTMLSpanElement>.
+    forwardedRef: React.Ref<HTMLSpanElement>
   ) => {
-    // Create a local ref for useInView
+    // Create an internal ref to be used by the useInView hook.
     const localRef = React.useRef<HTMLSpanElement>(null);
 
-    // Merge the forwarded ref with the local ref
-    // This allows both useInView to monitor the element and the parent component
-    // to attach its own ref to the same DOM element.
-    const mergedRef = React.useCallback((node: HTMLSpanElement | null) => {
-      // Assign the node to the local ref
-      localRef.current = node;
+    // Create a single callback ref that merges both the localRef and the forwardedRef.
+    // This ensures both the useInView hook and any parent refs correctly receive the DOM element.
+    const mergedRefs = React.useCallback(
+      (node: HTMLSpanElement | null) => {
+        // Assign the DOM node to our internal ref for useInView.
+        localRef.current = node;
 
-      // Assign the node to the forwarded ref
-      if (typeof forwardedRef === 'function') {
-        forwardedRef(node);
-      } else if (forwardedRef) {
-        (forwardedRef as React.MutableRefObject<HTMLSpanElement | null>).current = node;
-      }
-    }, [forwardedRef]); // Depend on forwardedRef to ensure it's up-to-date
+        // Handle the forwarded ref from the parent.
+        if (typeof forwardedRef === 'function') {
+          // If forwardedRef is a callback function, call it with the node.
+          forwardedRef(node);
+        } else if (forwardedRef && typeof forwardedRef === 'object' && 'current' in forwardedRef) {
+          // If forwardedRef is an object ref (like one created by useRef),
+          // we need to explicitly cast it to React.MutableRefObject to assign to 'current',
+          // as React.RefObject's 'current' property is read-only.
+          (forwardedRef as React.MutableRefObject<HTMLSpanElement | null>).current = node;
+        }
+        // String refs are generally deprecated and React.forwardRef usually doesn't pass them
+        // directly as the second argument. If they were to be passed, the initial error from
+        // motion.span suggests it wouldn't accept them anyway.
+      },
+      [forwardedRef] // Re-create this callback if the forwardedRef changes.
+    );
 
-    const inViewResult = useInView(localRef, { // use localRef for useInView
+    const inViewResult = useInView(localRef, {
       once: inViewOnce,
       margin: inViewMargin,
     });
 
-    // Fixed logic: only animate when scroll-triggered AND in view
+    // Determine if animation should run (based on `inView` prop and scroll visibility).
     const shouldAnimate = inView ? inViewResult : false;
 
-    // Create dynamic background based on color prop
+    // Helper function to generate background style based on color.
     const getBackgroundStyle = (color: string) => {
-      // If it's a hex color, create a gradient with opacity variations
       if (color.startsWith('#')) {
         const baseColor = color;
-        const lightColor = baseColor + '40'; // Add 40 for 25% opacity
+        const lightColor = baseColor + '40'; // Add 40 for ~25% opacity
         return `linear-gradient(120deg, ${lightColor} 0%, ${baseColor} 100%)`;
       }
-      // Default fallback
+      // Fallback for non-hex colors (or if you want a simpler gradient).
       return `linear-gradient(120deg, ${color}40 0%, ${color} 100%)`;
     };
 
     return (
       <motion.span
-        // Pass the merged ref to the motion.span component
-        ref={mergedRef}
+        ref={mergedRefs} // Pass the merged callback ref to the motion.span component.
         data-slot="highlight-text"
         initial={{
           backgroundSize: '0% 100%',
         }}
+        // Animate backgroundSize based on whether it should animate.
         animate={shouldAnimate ? { backgroundSize: '100% 100%' } : { backgroundSize: '0% 100%' }}
         transition={transition}
         style={{
@@ -91,13 +101,13 @@ const HighlightText = React.forwardRef<HTMLSpanElement, HighlightTextProps>(
           backgroundRepeat: 'no-repeat',
           backgroundPosition: 'left center',
           display: 'inline',
-          ...style,
+          ...style, // Allow external style overrides
         }}
         className={cn(
           'relative inline-block px-2 py-1 rounded-lg',
-          className,
+          className, // Allow external className overrides
         )}
-        {...props}
+        {...props} // Pass any other props to the span element.
       >
         {text}
       </motion.span>
@@ -105,7 +115,6 @@ const HighlightText = React.forwardRef<HTMLSpanElement, HighlightTextProps>(
   }
 );
 
-// Assign a display name for easier debugging
-HighlightText.displayName = 'HighlightText';
+HighlightText.displayName = 'HighlightText'; // Helpful for debugging in React DevTools.
 
 export { HighlightText, type HighlightTextProps };

@@ -15,6 +15,7 @@ export interface GooeyNavProps {
   colors?: number[];
   initialActiveIndex?: number;
   scrolled?: boolean;
+  currentPath?: string; // Add this prop
 }
 
 const GooeyNav: React.FC<GooeyNavProps> = ({
@@ -27,12 +28,29 @@ const GooeyNav: React.FC<GooeyNavProps> = ({
   colors = [1, 2, 3, 1, 2, 3, 1, 4],
   initialActiveIndex = 0,
   scrolled = false,
+  currentPath = "/", // Add default value
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const navRef = useRef<HTMLUListElement>(null);
   const filterRef = useRef<HTMLSpanElement>(null);
   const textRef = useRef<HTMLSpanElement>(null);
-  const [activeIndex, setActiveIndex] = useState<number>(initialActiveIndex);
+  
+  // Calculate active index based on current path
+  const getActiveIndexFromPath = () => {
+    const index = items.findIndex(item => item.href === currentPath);
+    return index !== -1 ? index : 0; // fallback to 0 if not found
+  };
+  
+  const [activeIndex, setActiveIndex] = useState<number>(getActiveIndexFromPath());
+  
+  // Update activeIndex when currentPath changes
+  useEffect(() => {
+    const newActiveIndex = getActiveIndexFromPath();
+    if (newActiveIndex !== activeIndex) {
+      setActiveIndex(newActiveIndex);
+    }
+  }, [currentPath, items]);
+
   const noise = (n = 1) => n / 2 - Math.random() * n;
 
   const getXY = (

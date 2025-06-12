@@ -13,7 +13,7 @@ interface RootLayoutProps {
 }
 
 export default function RootLayout({ children }: RootLayoutProps) {
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [showReveal, setShowReveal] = useState(false);
 
   useEffect(() => {
@@ -21,7 +21,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
 
     const timer = setTimeout(() => {
       setIsLoading(false);
-      setShowReveal(true);
+      setShowReveal(false);
     }, loadingDuration);
 
     return () => clearTimeout(timer);

@@ -4,8 +4,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
-
 :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
@@ -219,7 +217,6 @@
   font-family: 'Josefin Sans', sans-serif;
 }
 
-
 .variable-proximity {
   font-family: "Roboto Flex", sans-serif;
 }
@@ -234,4 +231,127 @@
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   border: 0;
+}
+
+/* --- Styles for Intro component --- */
+
+.intro-section {
+  display: flex;
+  position: relative;
+  width: 100%;
+  height: 400px; /* Fixed height for larger screens */
+  background-color: #2e62a4; /* Blue color from your full image */
+  overflow: hidden;
+  align-items: center;
+  /* If your header is transparent and has a fixed height,
+     you might need to add padding-top here to push content down.
+     Example if header is 80px tall:
+     padding-top: 80px;
+  */
+}
+
+.intro-text-container {
+  position: absolute;
+  left: 10%;
+  color: white;
+  z-index: 3; /* Ensures text is always on top */
+}
+
+.intro-main-title {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 3em;
+  margin-bottom: 10px;
+  font-weight: 700;
+}
+
+.intro-breadcrumb-text {
+  font-family: 'Roboto Flex', sans-serif;
+  font-size: 1em;
+  opacity: 0.8;
+}
+
+.breadcrumb-link {
+  color: white; /* Ensure links are white */
+  text-decoration: none; /* Remove underline */
+  transition: opacity 0.3s ease; /* Smooth transition on hover */
+}
+
+.breadcrumb-link:hover {
+  opacity: 1; /* Full opacity on hover */
+}
+
+.intro-image-graphic-container {
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100%;
+  width: 725px; /* Fixed width for larger screens */
+  overflow: hidden;
+  z-index: 1;
+}
+
+.testimonial-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* --- Responsive Adjustments --- */
+
+/* For smaller desktops and laptops (e.g., max-width 1024px) */
+@media (max-width: 1024px) {
+  .intro-main-title {
+    font-size: 2.5em; /* Slightly smaller title */
+  }
+  .intro-image-graphic-container {
+    width: 600px; /* Adjust image width */
+  }
+}
+
+/* For tablets (e.g., max-width 768px) */
+@media (max-width: 768px) {
+  .intro-section {
+    height: 350px; /* Reduce height */
+  }
+  .intro-main-title {
+    font-size: 2em; /* Smaller title */
+  }
+  .intro-breadcrumb-text {
+    font-size: 0.9em; /* Smaller breadcrumb */
+  }
+  .intro-image-graphic-container {
+    width: 50%; /* Make image take up half width */
+  }
+}
+
+/* For mobile devices (e.g., max-width 480px) */
+@media (max-width: 480px) {
+  .intro-section {
+    flex-direction: column; /* Stack content and image vertically */
+    height: auto; /* Auto height for stacked content */
+    padding-top: 50px; /* Add padding to top if header is still there */
+    padding-bottom: 30px; /* Add padding to bottom */
+  }
+  .intro-text-container {
+    position: relative; /* Remove absolute positioning */
+    left: auto; /* Remove left positioning */
+    width: 90%; /* Take up most of the width */
+    margin: 0 auto 20px auto; /* Center text and add bottom margin */
+    text-align: center; /* Center align text */
+  }
+  .intro-main-title {
+    font-size: 1.8em;
+  }
+  .intro-breadcrumb-text {
+    font-size: 0.8em;
+  }
+  .intro-image-graphic-container {
+    position: relative; /* Remove absolute positioning */
+    width: 100%; /* Full width on mobile */
+    height: 250px; /* Fixed height for image on mobile */
+  }
+  .testimonial-image {
+    object-fit: contain; /* Ensures the whole image is visible, might leave space */
+  }
 }

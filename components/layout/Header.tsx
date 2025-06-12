@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { usePathname } from 'next/navigation'; // Add this import
 import { Menu, X, MapIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
@@ -21,6 +22,7 @@ const menuItems = [
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const pathname = usePathname(); // Get current pathname
 
   useEffect(() => {
     const handleScroll = () => {
@@ -59,7 +61,11 @@ const Header = () => {
 
         {/* Desktop GooeyNav */}
         <div className="hidden md:block">
-          <GooeyNav items={menuItems} scrolled={scrolled} />
+          <GooeyNav 
+            items={menuItems} 
+            scrolled={scrolled} 
+            currentPath={pathname} // Pass current pathname
+          />
         </div>
 
         {/* Desktop Locate Us Button */}
@@ -96,7 +102,12 @@ const Header = () => {
             <li key={item.label}>
               <Link
                 href={item.href}
-                className="block px-6 py-3 text-black hover:bg-gray-100 transition-colors"
+                className={cn(
+                  "block px-6 py-3 transition-colors",
+                  pathname === item.href 
+                    ? "text-chart-2 bg-gray-100 font-medium" // Active state for mobile
+                    : "text-black hover:bg-gray-100"
+                )}
                 onClick={() => setIsOpen(false)}
               >
                 {item.label}

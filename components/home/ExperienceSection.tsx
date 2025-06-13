@@ -44,9 +44,7 @@ export default function ExperienceSection() {
             <br></br>
           </h3>
           <a
-            href="/testimonials"
-            target="_blank"
-            rel="noopener noreferrer">
+            href="/testimonials">
           <Button variant='link' className="bg-blue-700 text-white hover:bg-blue-400 font-sans-semibold transition">
             View here
           </Button>

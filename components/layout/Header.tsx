@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { usePathname } from 'next/navigation'; // Add this import
+import { usePathname } from 'next/navigation';
 import { Menu, X, MapIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
@@ -22,7 +22,7 @@ const menuItems = [
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const pathname = usePathname(); // Get current pathname
+  const pathname = usePathname();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -59,26 +59,26 @@ const Header = () => {
           />
         </Link>
 
-        {/* Desktop GooeyNav */}
-        <div className="hidden md:block">
+        {/* Desktop GooeyNav - visible from lg and up */}
+        <div className="hidden lg:block">
           <GooeyNav 
             items={menuItems} 
             scrolled={scrolled} 
-            currentPath={pathname} // Pass current pathname
+            currentPath={pathname}
           />
         </div>
 
-        {/* Desktop Locate Us Button */}
-        <div className="hidden md:flex items-center space-x-4">
+        {/* Desktop Locate Us Button - visible from lg and up */}
+        <div className="hidden lg:flex items-center space-x-4">
           <Button className={cn('bg-transparent hover:bg-chart-2/90', textColorClass)}>
             <MapIcon className={cn('mr-2 h-4 w-4', iconColorClass)} /> Locate Us
           </Button>
         </div>
 
-        {/* Mobile menu toggle */}
+        {/* Mobile menu toggle - visible below lg */}
         <button
           onClick={toggleMenu}
-          className="md:hidden p-2 rounded-md"
+          className="lg:hidden p-2 rounded-md"
           aria-expanded={isOpen}
           aria-label="Toggle menu"
         >
@@ -90,10 +90,10 @@ const Header = () => {
         </button>
       </div>
 
-      {/* Mobile dropdown menu */}
+      {/* Mobile dropdown menu - visible below lg */}
       <div
         className={cn(
-          'md:hidden absolute top-full left-0 right-0 bg-white shadow-md transition-all duration-300 ease-in-out overflow-hidden',
+          'lg:hidden absolute top-full left-0 right-0 bg-white shadow-md transition-all duration-300 ease-in-out overflow-hidden',
           isOpen ? 'max-h-[80vh] opacity-100' : 'max-h-0 opacity-0'
         )}
       >
@@ -105,7 +105,7 @@ const Header = () => {
                 className={cn(
                   "block px-6 py-3 transition-colors",
                   pathname === item.href 
-                    ? "text-chart-2 bg-gray-100 font-medium" // Active state for mobile
+                    ? "text-chart-2 bg-gray-100 font-medium"
                     : "text-black hover:bg-gray-100"
                 )}
                 onClick={() => setIsOpen(false)}

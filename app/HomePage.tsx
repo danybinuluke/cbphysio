@@ -19,7 +19,8 @@ import ExperienceSection from '@/components/home/ExperienceSection';
 
 const HomePage = () => {
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen overflow-x-hidden">
+
       <Header />
       <main>
         <HeroSection />

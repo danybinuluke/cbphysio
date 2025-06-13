@@ -59,26 +59,26 @@ const Footer = () => {
       <div className="container mx-auto px-4 pt-16 pb-8">
         <div className="grid grid-cols-1 md:grid-cols-6 gap-10">
           {/* Logo and Info */}
-          <div className="md:col-span-2">
-            <Link href="/" className="flex items-center space-x-2 mb-6">
+          <div className="md:col-span-2"> {/* Removed flex and items-start to keep original layout for words */}
+            <Link href="/" className="flex items-center space-x-2 mb-6"> {/* Reverted to original spacing for link */}
               <div>
                 <Image
-                  src="/cb1.png"
-                  alt="PhysioCare Logo"
-                  width={250}
-                  height={250}
-                  className="object-cover w-75 h-75"
+                  src="/cb3.png" // Your Mobiphysio logo path
+                  alt="Mobiphysio Logo"
+                  width={400} // Increased width significantly to make it bigger
+                  height={140} // Increased height to maintain aspect ratio and make it bigger
+                  className="object-contain" // Ensures the whole image is visible within the dimensions
                 />
               </div>
             </Link>
 
-            <p className="text-primary-foreground/80 mb-6">
+            <p className="text-primary-foreground/80 mb-6"> {/* Reverted text size and line height */}
               Mobiphysio is a modern Physiotherapy Clinic in Coimbatore, situated near the iconic landmark at RS Puram.
               Dr. T.R. Vandana, PT., Founder and Senior Physiotherapist, provides recovery-driven Physio Treatment with the
               assistance of a team of specialized Physical Therapists.
             </p>
 
-            <div className="flex space-x-4">
+            <div className="flex space-x-4"> {/* Reverted social icon spacing and size */}
               <a
                 href="https://www.facebook.com/mobiphysioindia"
                 className="h-10 w-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-chart-2 transition-colors"

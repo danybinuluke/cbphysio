@@ -250,10 +250,10 @@ const NeckPainPage: React.FC = () => {
                     <ul className="space-y-2 text-gray-700">
                       <li>• Cervical Spondylosis</li>
                       <li>• Meningitis</li>
-                      <li className="text-blue-600">• <span className="underline">Rheumatoid arthritis</span></li>
-                      <li className="text-blue-600">• <span className="underline">Osteoporosis</span></li>
-                      <li className="text-blue-600">• <span className="underline">Fibromyalgia</span></li>
-                      <li className="text-blue-600">• <span className="underline">Herniated cervical disk</span></li>
+                      <li>• Rheumatoid arthritis </li>
+                      <li>• Osteoporosis </li>
+                      <li>• Fibromyalgia </li>
+                      <li>• Herniated cervical disk </li>
                     </ul>
                   </div>
 
@@ -472,6 +472,7 @@ const NeckPainPage: React.FC = () => {
                       A lot more awaits you! Ready to live a neck-pain free life?
                     </p>
                     <br></br>
+                    <br></br>
                     <div className='mb-16 text-center'>
                         <Button variant={"interactive-hover"}>
                           <CalendarDays className="mr-2 h-6 w-6" />
@@ -490,7 +491,7 @@ const NeckPainPage: React.FC = () => {
                   Discover our comprehensive range of physiotherapy services designed to help you achieve optimal health and wellness.
                 </p>
                 <button className="group relative overflow-hidden bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold py-4 px-8 rounded-lg transition-all duration-300 transform hover:scale-110 shadow-lg hover:shadow-xl">
-                  <span className="relative z-10">Check Other Services</span>
+                  <a href='/services'><span className="relative z-10">Check Other Services</span></a>
                   <div className="absolute inset-0 bg-gradient-to-r from-blue-700 to-indigo-700 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
                 </button>
               </div>

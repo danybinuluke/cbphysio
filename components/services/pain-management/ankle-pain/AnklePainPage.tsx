@@ -118,34 +118,36 @@ const AnklePainPage: React.FC = () => {
       </div>
 
       <div className="flex">
-        {/* Sidebar - Always visible on desktop, hidden on mobile/tablet */}
-        <div className="hidden lg:block fixed lg:static inset-y-0 left-0 z-30 w-80 bg-white shadow-lg">
-          <div className="p-6 border-b border-gray-200">
-            <h2 className="text-xl font-semibold text-gray-900">Contents</h2>
+        {/* Styled Sidebar - Box with rounded corners */}
+        <div className="hidden lg:block sticky top-6 h-fit w-80 ml-6">
+          <div className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
+            <div className="p-6 border-b border-gray-100 bg-gray-50">
+              <h2 className="text-xl font-semibold text-gray-900">Contents</h2>
+            </div>
+            <nav className="p-4">
+              <ul className="space-y-1">
+                {tableOfContents.map((item, index) => (
+                  <li key={item.id}>
+                    <button
+                      onClick={() => scrollToSection(item.id)}
+                      className={`w-full flex items-center text-left p-3 rounded-xl transition-all duration-200 ${
+                        activeSection === item.id
+                          ? 'bg-blue-50 text-blue-700 shadow-sm border border-blue-100'
+                          : 'text-gray-700 hover:bg-gray-50 hover:shadow-sm'
+                      }`}
+                    >
+                      <div className={`w-8 h-8 rounded-full mr-3 flex items-center justify-center text-white text-sm font-medium shadow-sm ${
+                        activeSection === item.id ? 'bg-blue-600' : 'bg-gray-400'
+                      }`}>
+                        {index + 1}
+                      </div>
+                      <span className="font-medium text-sm leading-tight">{item.title}</span>
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </nav>
           </div>
-          <nav className="p-4">
-            <ul className="space-y-2">
-              {tableOfContents.map((item, index) => (
-                <li key={item.id}>
-                  <button
-                    onClick={() => scrollToSection(item.id)}
-                    className={`w-full flex items-center text-left p-3 rounded-lg transition-colors ${
-                      activeSection === item.id
-                        ? 'bg-blue-50 text-blue-700'
-                        : 'text-gray-700 hover:bg-gray-50'
-                    }`}
-                  >
-                    <div className={`w-8 h-8 rounded-full mr-3 flex items-center justify-center text-white text-sm font-medium ${
-                      activeSection === item.id ? 'bg-blue-600' : 'bg-gray-400'
-                    }`}>
-                      {index + 1}
-                    </div>
-                    <span className="font-medium text-sm">{item.title}</span>
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </nav>
         </div>
 
         {/* Main Content */}

@@ -299,7 +299,7 @@ const AnkleSprainPage: React.FC = () => {
               <img 
                 src="/ankle-sprain.webp"
                 alt="Ankle sprain rehabilitation"
-                className="w-full h-full object-fill"
+                className="w-full h-full object-cover"
               />
             </div>
             <motion.div 

@@ -28,7 +28,7 @@ const Footer = () => {
         { label: 'Lifestyle Management', href: '/services/lifestyle-management' },
         { label: 'Pain Management', href: '/services/pain-management' },
         { label: 'Sports Injuries', href: '/services/sports-injuries' },
-        { label: 'CryoTherapy', href: '/services/crytherapy' },
+        { label: 'Cryotherapy', href: '/services/cryotherapy' },
         { label: 'Women Wellness', href: '/services/women-wellness' },
       ],
     },

@@ -1,6 +1,6 @@
 'use client'
 import React, { useState, useEffect, useRef } from 'react';
-import { ChevronDown, ChevronRight, Phone, Mail, MapPin, Clock, CheckCircle, AlertTriangle, Heart, Shield, User, Menu, X, CalendarDays } from 'lucide-react';
+import { ChevronDown, Phone, CalendarDays } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { motion, useInView } from 'framer-motion';
 
@@ -8,112 +8,73 @@ interface TableOfContentsItem {
   id: string;
   title: string;
 }
-
 interface ApproachItem {
   title: string;
   description: string;
   icon: string;
 }
-
-interface TreatmentMethod {
+interface TherapyMethod {
   title: string;
   description: string;
 }
 
-// Animation variants for different elements
+// Animation variants
 const fadeInUp = {
   hidden: { opacity: 0, y: 60 },
-  visible: { 
-    opacity: 1, 
-    y: 0,
-    transition: { duration: 0.6, ease: "easeOut" }
-  }
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
 };
-
 const fadeInLeft = {
   hidden: { opacity: 0, x: -60 },
-  visible: { 
-    opacity: 1, 
-    x: 0,
-    transition: { duration: 0.6, ease: "easeOut" }
-  }
+  visible: { opacity: 1, x: 0, transition: { duration: 0.6, ease: "easeOut" } }
 };
-
-const fadeInRight = {
-  hidden: { opacity: 0, x: 60 },
-  visible: { 
-    opacity: 1, 
-    x: 0,
-    transition: { duration: 0.6, ease: "easeOut" }
-  }
-};
-
 const staggerContainer = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    transition: {
-      staggerChildren: 0.2,
-      delayChildren: 0.1
-    }
+    transition: { staggerChildren: 0.2, delayChildren: 0.1 }
   }
 };
-
 const staggerItem = {
   hidden: { opacity: 0, y: 30 },
-  visible: { 
-    opacity: 1, 
-    y: 0,
-    transition: { duration: 0.5, ease: "easeOut" }
-  }
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } }
 };
-
 const scaleIn = {
   hidden: { opacity: 0, scale: 0.8 },
-  visible: { 
-    opacity: 1, 
-    scale: 1,
-    transition: { duration: 0.5, ease: "easeOut" }
-  }
+  visible: { opacity: 1, scale: 1, transition: { duration: 0.5, ease: "easeOut" } }
 };
 
-const SwellingPage: React.FC = () => {
-  const [activeSection, setActiveSection] = useState<string>('sports-injury');
-  const [expandedFaq, setExpandedFaq] = useState<number | null>(null);
-  const [isVisible, setIsVisible] = useState<Record<string, boolean>>({});
+const PCODPage: React.FC = () => {
+  const [activeSection, setActiveSection] = useState<string>('pcod-intro');
   const [expandedSections, setExpandedSections] = useState<Record<string, boolean>>({
-    'sports-injury': true,
-    'our-approach': true,
-    'rice-method': true,
-    'compression': true,
-    'exercises': true,
-    'lymphatic-drainage': true,
-    'cryotherapy': true
+    'pcod-intro': true,
+    'understanding-pcod': true,
+    'physio-help': true,
+    'treatment-approaches': true,
+    'lifestyle-management': true,
+    'comprehensive-care': true
   });
 
-  // Create refs for each section
+  // Section refs
   const heroRef = useRef<HTMLDivElement>(null);
   const sidebarRef = useRef<HTMLDivElement>(null);
-  const sportsRef = useRef<HTMLDivElement>(null);
-  const approachRef = useRef<HTMLDivElement>(null);
-  const riceRef = useRef<HTMLDivElement>(null);
-  const compressionRef = useRef<HTMLDivElement>(null);
-  const exercisesRef = useRef<HTMLDivElement>(null);
-  const lymphaticRef = useRef<HTMLDivElement>(null);
-  const cryotherapyRef = useRef<HTMLDivElement>(null);
+  const introRef = useRef<HTMLDivElement>(null);
+  const understandingRef = useRef<HTMLDivElement>(null);
+  const physioHelpRef = useRef<HTMLDivElement>(null);
+  const treatmentRef = useRef<HTMLDivElement>(null);
+  const lifestyleRef = useRef<HTMLDivElement>(null);
+  const comprehensiveRef = useRef<HTMLDivElement>(null);
   const finalApproachRef = useRef<HTMLDivElement>(null);
   const servicesRef = useRef<HTMLDivElement>(null);
 
-  // Use useInView hooks
+  // InView hooks
   const heroInView = useInView(heroRef, { once: true, margin: "-100px" });
   const sidebarInView = useInView(sidebarRef, { once: true, margin: "-100px" });
-  const sportsInView = useInView(sportsRef, { once: true, margin: "-100px" });
-  const approachInView = useInView(approachRef, { once: true, margin: "-100px" });
-  const riceInView = useInView(riceRef, { once: true, margin: "-100px" });
-  const compressionInView = useInView(compressionRef, { once: true, margin: "-100px" });
-  const exercisesInView = useInView(exercisesRef, { once: true, margin: "-100px" });
-  const lymphaticInView = useInView(lymphaticRef, { once: true, margin: "-100px" });
-  const cryotherapyInView = useInView(cryotherapyRef, { once: true, margin: "-100px" });
+  const introInView = useInView(introRef, { once: true, margin: "-100px" });
+  const understandingInView = useInView(understandingRef, { once: true, margin: "-100px" });
+  const physioHelpInView = useInView(physioHelpRef, { once: true, margin: "-100px" });
+  const treatmentInView = useInView(treatmentRef, { once: true, margin: "-100px" });
+  const lifestyleInView = useInView(lifestyleRef, { once: true, margin: "-100px" });
+  const comprehensiveInView = useInView(comprehensiveRef, { once: true, margin: "-100px" });
   const finalApproachInView = useInView(finalApproachRef, { once: true, margin: "-100px" });
   const servicesInView = useInView(servicesRef, { once: true, margin: "-100px" });
 
@@ -124,20 +85,12 @@ const SwellingPage: React.FC = () => {
           if (entry.isIntersecting) {
             setActiveSection(entry.target.id);
           }
-          setIsVisible(prev => ({
-            ...prev,
-            [entry.target.id]: entry.isIntersecting
-          }));
         });
       },
       { threshold: 0.3, rootMargin: '-100px 0px' }
     );
-
     const elements = document.querySelectorAll('[id]');
-    elements.forEach((el) => {
-      observer.observe(el);
-    });
-
+    elements.forEach((el) => observer.observe(el));
     return () => observer.disconnect();
   }, []);
 
@@ -149,63 +102,78 @@ const SwellingPage: React.FC = () => {
   };
 
   const tableOfContents: TableOfContentsItem[] = [
-    { id: 'sports-injury', title: 'Swelling and Inflammation' },
-    { id: 'our-approach', title: 'Our Approach' },
-    { id: 'rice-method', title: 'R.I.C.E. Method' },
-    { id: 'compression', title: 'Compression & Support' },
-    { id: 'exercises', title: 'Anti-Inflammatory Exercises' },
-    { id: 'lymphatic-drainage', title: 'Manual Lymphatic Drainage' },
-    { id: 'cryotherapy', title: 'Cryotherapy Treatment' }
+    { id: 'pcod-intro', title: 'PCOD Challenges' },
+    { id: 'understanding-pcod', title: 'Understanding PCOD' },
+    { id: 'physio-help', title: 'How Physiotherapy Helps' },
+    { id: 'treatment-approaches', title: 'Treatment Approaches' },
+    { id: 'lifestyle-management', title: 'Lifestyle Management' },
+    { id: 'comprehensive-care', title: 'Comprehensive Care' }
   ];
 
-  const riceComponents: ApproachItem[] = [
-    { 
-      title: "Rest", 
-      description: "Allow your body the necessary time to heal and recover from injury",
-      icon: "🛌"
+  const physiotherapyBenefits: ApproachItem[] = [
+    {
+      title: "Regular Exercise Programs",
+      description: "Routine exercises can help regulate hormones, improve insulin sensitivity, and manage weight – all key factors in PCOD management.",
+      icon: "🏃‍♀️"
     },
-    { 
-      title: "Ice", 
-      description: "Our therapists employ ice therapies to alleviate swelling and inflammation effectively",
-      icon: "🧊"
+    {
+      title: "Stress Reduction Techniques",
+      description: "Chronic stress can worsen PCOD symptoms. Physiotherapy incorporates stress-reducing techniques such as yoga and relaxation exercises to promote mental well-being.",
+      icon: "🧘‍♀️"
     },
-    { 
-      title: "Compression", 
-      description: "Strategic compression techniques are utilized to control swelling",
-      icon: "🔄"
+    {
+      title: "Nutritional Guidance",
+      description: "Personalized dietary advice, supporting weight management and hormonal balance are all included to meet your health needs.",
+      icon: "🥗"
     },
-    { 
-      title: "Elevation", 
-      description: "Elevating the injured area aids in reducing fluid build-up",
-      icon: "⬆️"
+    {
+      title: "Pain Management",
+      description: "Physiotherapy interventions can reduce pain associated with PCOD, providing relief and improving the quality of life.",
+      icon: "💆‍♀️"
+    },
+    {
+      title: "Fertility Support",
+      description: "For individuals trying to conceive, physiotherapy can address specific concerns, enhancing fertility through targeted exercises and lifestyle modifications.",
+      icon: "🤱"
     }
   ];
 
-  const treatmentMethods: TreatmentMethod[] = [
+  const treatmentMethods: TherapyMethod[] = [
     {
-      title: "Therapeutic Assessment",
-      description: "Comprehensive evaluation of your injury and current condition to develop personalized treatment plans."
+      title: "Comprehensive Assessment",
+      description: "Detailed evaluation of your PCOD symptoms, lifestyle factors, and individual health goals to create a personalized treatment plan."
     },
     {
-      title: "Pain Management", 
-      description: "Advanced techniques to reduce pain and discomfort while promoting natural healing processes."
+      title: "Hormonal Balance Support",
+      description: "Targeted exercises and techniques to help regulate hormonal imbalances naturally through physiotherapy interventions."
     },
     {
-      title: "Inflammation Control",
-      description: "Specialized methods to effectively manage and reduce inflammation at the injury site."
+      title: "Weight Management Programs",
+      description: "Structured exercise routines and lifestyle modifications to achieve and maintain healthy weight, crucial for PCOD management."
     },
     {
-      title: "Recovery Monitoring",
-      description: "Continuous assessment of progress to ensure optimal healing and prevent re-injury."
+      title: "Insulin Sensitivity Improvement",
+      description: "Specific exercise protocols designed to enhance insulin sensitivity and glucose metabolism."
     },
     {
-      title: "Performance Restoration",
-      description: "Gradual return to athletic activities with focus on maintaining peak performance levels."
+      title: "Reproductive Health Support",
+      description: "Specialized care for fertility enhancement and reproductive health optimization through evidence-based physiotherapy."
     },
     {
-      title: "Injury Prevention",
-      description: "Education and techniques to minimize the risk of future sports-related injuries."
+      title: "Mental Health & Wellness",
+      description: "Holistic approach addressing the psychological aspects of PCOD, including stress management and emotional well-being."
     }
+  ];
+
+  const lifestyleTips = [
+    "Maintain regular physical activity with a mix of cardio and strength training",
+    "Practice stress management techniques like yoga, meditation, or deep breathing",
+    "Follow a balanced, anti-inflammatory diet rich in whole foods",
+    "Ensure adequate sleep (7-9 hours) for hormonal regulation",
+    "Stay hydrated and limit processed foods and sugary drinks",
+    "Monitor and manage weight through healthy lifestyle choices",
+    "Seek regular medical check-ups and hormone level monitoring",
+    "Build a strong support network for emotional well-being"
   ];
 
   const scrollToSection = (sectionId: string): void => {
@@ -225,14 +193,14 @@ const SwellingPage: React.FC = () => {
         transition={{ duration: 0.8, delay: 1 }}
       >
         <motion.button 
-          className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center text-white shadow-lg hover:bg-blue-700 transition-colors"
+          className="w-12 h-12 bg-blue-900 rounded-full flex items-center justify-center text-white shadow-lg hover:bg-blue-700 transition-colors"
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.95 }}
         >
           <Phone className="w-5 h-5" />
         </motion.button>
         <motion.button 
-          className="w-12 h-12 bg-indigo-500 rounded-full flex items-center justify-center text-white shadow-lg hover:bg-indigo-600 transition-colors"
+          className="w-12 h-12 bg-blue-900 rounded-full flex items-center justify-center text-white shadow-lg hover:bg-blue-700 transition-colors"
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.95 }}
         >
@@ -243,7 +211,7 @@ const SwellingPage: React.FC = () => {
       </motion.div>
 
       <div className="flex">
-        {/* Animated Sidebar */}
+        {/* Sidebar */}
         <motion.div 
           ref={sidebarRef}
           className="hidden lg:block sticky top-6 h-fit w-80 ml-6"
@@ -288,7 +256,7 @@ const SwellingPage: React.FC = () => {
 
         {/* Main Content */}
         <div className="flex-1 lg:ml-0">
-          {/* Animated Hero Section */}
+          {/* Hero Section with Glass/Blur Effect */}
           <motion.section 
             ref={heroRef}
             className="relative h-96 bg-gradient-to-r from-blue-700 to-indigo-800 flex items-center justify-center overflow-hidden"
@@ -298,10 +266,11 @@ const SwellingPage: React.FC = () => {
           >
             <div className="absolute inset-0">
               <img 
-                src="/swelling.png"
-                alt="Sports injury rehabilitation"
+                src="/pcod.webp"
+                alt="PCOD Management"
                 className="w-full h-full object-cover"
               />
+              <div className="absolute inset-0 bg-white bg-opacity-20 backdrop-blur-md" />
             </div>
             <motion.div 
               className="relative z-10 text-center text-white"
@@ -310,32 +279,69 @@ const SwellingPage: React.FC = () => {
               animate={heroInView ? "visible" : "hidden"}
               transition={{ delay: 0.3 }}
             >
-              <h1 className="text-4xl text-blue-600 md:text-5xl font-bold mb-2">Swelling and Inflammation</h1>
-              <p className="text-blue-600 text-lg">Comprehensive Rehabilitation & Recovery</p>
+              <h1 className="text-4xl text-blue-900 md:text-5xl font-bold mb-2">PCOD Management</h1>
+              <p className="text-blue-900 text-lg">Transforming Lives Through Physiotherapy</p>
             </motion.div>
           </motion.section>
 
           <div className="max-w-4xl mx-auto px-6 py-8">
-            {/* Sports Injury Section - Animated */}
+            {/* PCOD Intro */}
             <motion.section 
-              id="sports-injury" 
+              id="pcod-intro" 
               className="mb-16"
-              ref={sportsRef}
+              ref={introRef}
               variants={fadeInUp}
               initial="hidden"
-              animate={sportsInView ? "visible" : "hidden"}
+              animate={introInView ? "visible" : "hidden"}
             >
               <div className="flex items-center mb-6">
-                <h2 className="text-3xl font-bold text-gray-900">Swelling and Inflammation</h2>
+                <h2 className="text-3xl font-bold text-gray-900">Are you experiencing the challenges of PCOD?</h2>
                 <button 
-                  onClick={() => toggleSection('sports-injury')}
+                  onClick={() => toggleSection('pcod-intro')}
                   className="ml-auto w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white transition-transform duration-200"
-                  style={{ transform: expandedSections['sports-injury'] ? 'rotate(180deg)' : 'rotate(0deg)' }}
+                  style={{ transform: expandedSections['pcod-intro'] ? 'rotate(180deg)' : 'rotate(0deg)' }}
                 >
                   <ChevronDown className="w-5 h-5" />
                 </button>
               </div>
-              {expandedSections['sports-injury'] && (
+              {expandedSections['pcod-intro'] && (
+                <motion.div 
+                  className="bg-white rounded-lg p-8 shadow-sm border border-gray-200"
+                  variants={fadeInUp}
+                  initial="hidden"
+                  animate="visible"
+                  transition={{ delay: 0.2 }}
+                >
+                  <p className="text-gray-700 leading-relaxed text-lg mb-4">
+                    Affecting your daily life and well-being? Wondering how physiotherapy could make a positive impact on your journey towards managing PCOD symptoms?
+                  </p>
+                  <p className="leading-relaxed text-lg font-semibold text-blue-900">
+                    You are at the right place!
+                  </p>
+                </motion.div>
+              )}
+            </motion.section>
+
+            {/* Understanding PCOD */}
+            <motion.section 
+              id="understanding-pcod"
+              className="mb-16"
+              ref={understandingRef}
+              variants={fadeInUp}
+              initial="hidden"
+              animate={understandingInView ? "visible" : "hidden"}
+            >
+              <div className="flex items-center mb-8">
+                <h2 className="text-3xl font-bold text-gray-900">Understanding PCOD</h2>
+                <button 
+                  onClick={() => toggleSection('understanding-pcod')}
+                  className="ml-auto w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white transition-transform duration-200"
+                  style={{ transform: expandedSections['understanding-pcod'] ? 'rotate(180deg)' : 'rotate(0deg)' }}
+                >
+                  <ChevronDown className="w-5 h-5" />
+                </button>
+              </div>
+              {expandedSections['understanding-pcod'] && (
                 <motion.div 
                   className="bg-white rounded-lg p-8 shadow-sm border border-gray-200"
                   variants={fadeInUp}
@@ -344,47 +350,103 @@ const SwellingPage: React.FC = () => {
                   transition={{ delay: 0.2 }}
                 >
                   <p className="text-gray-700 leading-relaxed text-lg mb-6">
-                    We recognize the challenges that sports injuries pose to your athletic performance and overall health. Our committed team of physiotherapists is here to lead you through a holistic strategy for addressing swelling and inflammation, ensuring a seamless journey towards recovery.
+                    Polycystic Ovarian Disease (PCOD) is a common endocrine disorder affecting individuals with reproductive age, particularly women. It can lead to various health issues, including irregular periods, hormonal imbalances, and difficulty conceiving.
                   </p>
                   <p className="text-gray-700 leading-relaxed text-lg">
-                    Sports injuries can significantly impact your ability to perform at your best and affect your daily activities. Our comprehensive approach focuses on reducing inflammation, managing pain, and restoring function through evidence-based treatment methods tailored to each athlete's specific needs.
+                    PCOD affects millions of women worldwide and can significantly impact quality of life through symptoms such as weight gain, acne, excessive hair growth, mood changes, and fertility challenges. Understanding this condition is the first step toward effective management and improved well-being.
                   </p>
                 </motion.div>
               )}
             </motion.section>
 
-            {/* Our Approach Section - Animated */}
+            {/* How Physiotherapy Helps */}
             <motion.section 
-              id="our-approach" 
+              id="physio-help"
               className="mb-16"
-              ref={approachRef}
+              ref={physioHelpRef}
               variants={fadeInUp}
               initial="hidden"
-              animate={approachInView ? "visible" : "hidden"}
+              animate={physioHelpInView ? "visible" : "hidden"}
             >
               <div className="flex items-center mb-8">
-                <h2 className="text-3xl font-bold text-gray-900">What's Our Approach?</h2>
+                <h2 className="text-3xl font-bold text-gray-900">How Can Physiotherapy Help with PCOD?</h2>
                 <button 
-                  onClick={() => toggleSection('our-approach')}
+                  onClick={() => toggleSection('physio-help')}
                   className="ml-auto w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white transition-transform duration-200"
-                  style={{ transform: expandedSections['our-approach'] ? 'rotate(180deg)' : 'rotate(0deg)' }}
+                  style={{ transform: expandedSections['physio-help'] ? 'rotate(180deg)' : 'rotate(0deg)' }}
                 >
                   <ChevronDown className="w-5 h-5" />
                 </button>
               </div>
-              
-              {expandedSections['our-approach'] && (
+              {expandedSections['physio-help'] && (
+                <>
+                  <motion.div 
+                    className="bg-white rounded-lg p-8 shadow-sm border border-gray-200 mb-8"
+                    variants={fadeInUp}
+                    initial="hidden"
+                    animate="visible"
+                    transition={{ delay: 0.2 }}
+                  >
+                    <p className="text-gray-700 leading-relaxed text-lg mb-6">
+                      Physiotherapy plays a crucial role in managing PCOD symptoms, offering personalized care to address both the physical and emotional aspects, ultimately enhancing your overall wellness. Whether you're seeking relief from hormonal imbalances, aiming for weight management, or pursuing emotional well-being, our dedicated physiotherapists at Mobiphysio are here to guide you on a transformative journey to good health.
+                    </p>
+                  </motion.div>
+                  <motion.div 
+                    className="space-y-4"
+                    variants={staggerContainer}
+                    initial="hidden"
+                    animate="visible"
+                  >
+                    {physiotherapyBenefits.map((benefit, idx) => (
+                      <motion.div 
+                        key={idx}
+                        className="bg-white rounded-lg p-6 shadow-sm border border-gray-200 flex items-center space-x-4"
+                        variants={staggerItem}
+                      >
+                        <div className="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center text-white text-xl">
+                          {benefit.icon}
+                        </div>
+                        <div className="flex-1">
+                          <h3 className="text-xl font-semibold text-gray-900 mb-2">{benefit.title}</h3>
+                          <p className="text-gray-600">{benefit.description}</p>
+                        </div>
+                      </motion.div>
+                    ))}
+                  </motion.div>
+                </>
+              )}
+            </motion.section>
+
+            {/* Treatment Approaches */}
+            <motion.section 
+              id="treatment-approaches"
+              className="mb-16"
+              ref={treatmentRef}
+              variants={fadeInUp}
+              initial="hidden"
+              animate={treatmentInView ? "visible" : "hidden"}
+            >
+              <div className="flex items-center mb-8">
+                <h2 className="text-3xl font-bold text-gray-900">Our Treatment Approaches</h2>
+                <button 
+                  onClick={() => toggleSection('treatment-approaches')}
+                  className="ml-auto w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white transition-transform duration-200"
+                  style={{ transform: expandedSections['treatment-approaches'] ? 'rotate(180deg)' : 'rotate(0deg)' }}
+                >
+                  <ChevronDown className="w-5 h-5" />
+                </button>
+              </div>
+              {expandedSections['treatment-approaches'] && (
                 <motion.div 
-                  className="bg-white rounded-lg p-8 shadow-sm border border-gray-200 mb-8"
+                  className="bg-white rounded-lg p-8 shadow-sm border border-gray-200"
                   variants={fadeInUp}
                   initial="hidden"
                   animate="visible"
                   transition={{ delay: 0.2 }}
                 >
                   <p className="text-gray-700 leading-relaxed text-lg mb-6">
-                    Our comprehensive treatment methodology combines traditional physiotherapy techniques with modern therapeutic approaches to ensure optimal recovery outcomes for all types of sports injuries.
+                    Our comprehensive approach to PCOD management combines evidence-based physiotherapy techniques with personalized care plans tailored to your unique needs and goals.
                   </p>
-                  
                   <motion.div 
                     className="space-y-6"
                     variants={staggerContainer}
@@ -404,87 +466,26 @@ const SwellingPage: React.FC = () => {
               )}
             </motion.section>
 
-            {/* R.I.C.E. Method Section - Animated */}
+            {/* Lifestyle Management */}
             <motion.section 
-              id="rice-method" 
+              id="lifestyle-management"
               className="mb-16"
-              ref={riceRef}
+              ref={lifestyleRef}
               variants={fadeInUp}
               initial="hidden"
-              animate={riceInView ? "visible" : "hidden"}
+              animate={lifestyleInView ? "visible" : "hidden"}
             >
               <div className="flex items-center mb-8">
-                <h2 className="text-3xl font-bold text-gray-900">Restoring Balance with R.I.C.E.</h2>
+                <h2 className="text-3xl font-bold text-gray-900">Lifestyle Management for PCOD</h2>
                 <button 
-                  onClick={() => toggleSection('rice-method')}
+                  onClick={() => toggleSection('lifestyle-management')}
                   className="ml-auto w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white transition-transform duration-200"
-                  style={{ transform: expandedSections['rice-method'] ? 'rotate(180deg)' : 'rotate(0deg)' }}
+                  style={{ transform: expandedSections['lifestyle-management'] ? 'rotate(180deg)' : 'rotate(0deg)' }}
                 >
                   <ChevronDown className="w-5 h-5" />
                 </button>
               </div>
-              
-              {expandedSections['rice-method'] && (
-                <>
-                  <motion.div 
-                    className="bg-white rounded-lg p-8 shadow-sm border border-gray-200 mb-8"
-                    variants={fadeInUp}
-                    initial="hidden"
-                    animate="visible"
-                    transition={{ delay: 0.2 }}
-                  >
-                    <p className="text-gray-700 leading-relaxed text-lg mb-6">
-                      The R.I.C.E. method is a proven approach for immediate sports injury management. This systematic protocol helps control inflammation, reduce pain, and create optimal conditions for healing during the acute phase of injury.
-                    </p>
-                  </motion.div>
-
-                  <motion.div 
-                    className="space-y-4"
-                    variants={staggerContainer}
-                    initial="hidden"
-                    animate="visible"
-                  >
-                    {riceComponents.map((component, index) => (
-                      <motion.div 
-                        key={index} 
-                        className="bg-white rounded-lg p-6 shadow-sm border border-gray-200 flex items-center space-x-4"
-                        variants={staggerItem}
-                      >
-                        <div className="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center text-white text-xl">
-                          {component.icon}
-                        </div>
-                        <div className="flex-1">
-                          <h3 className="text-xl font-semibold text-gray-900 mb-2">{component.title}</h3>
-                          <p className="text-gray-600">{component.description}</p>
-                        </div>
-                      </motion.div>
-                    ))}
-                  </motion.div>
-                </>
-              )}
-            </motion.section>
-
-            {/* Compression Section - Animated */}
-            <motion.section 
-              id="compression" 
-              className="mb-16"
-              ref={compressionRef}
-              variants={fadeInUp}
-              initial="hidden"
-              animate={compressionInView ? "visible" : "hidden"}
-            >
-              <div className="flex items-center mb-8">
-                <h2 className="text-3xl font-bold text-gray-900">Compression Garments and Support</h2>
-                <button 
-                  onClick={() => toggleSection('compression')}
-                  className="ml-auto w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white transition-transform duration-200"
-                  style={{ transform: expandedSections['compression'] ? 'rotate(180deg)' : 'rotate(0deg)' }}
-                >
-                  <ChevronDown className="w-5 h-5" />
-                </button>
-              </div>
-              
-              {expandedSections['compression'] && (
+              {expandedSections['lifestyle-management'] && (
                 <motion.div 
                   className="bg-white rounded-lg p-8 shadow-sm border border-gray-200"
                   variants={fadeInUp}
@@ -493,7 +494,7 @@ const SwellingPage: React.FC = () => {
                   transition={{ delay: 0.2 }}
                 >
                   <p className="text-gray-700 leading-relaxed text-lg mb-6">
-                    We recommend and provide compression garments to offer consistent pressure that helps in the reduction of swelling. Our specialists will guide you in selecting the appropriate compression level and type for your specific injury.
+                    Effective PCOD management extends beyond clinical treatment to encompass comprehensive lifestyle modifications that support hormonal balance and overall well-being.
                   </p>
                   <motion.ul 
                     className="space-y-2 text-gray-700"
@@ -501,42 +502,34 @@ const SwellingPage: React.FC = () => {
                     initial="hidden"
                     animate="visible"
                   >
-                    {[
-                      "Professional fitting and selection of compression garments",
-                      "Graduated compression for optimal fluid management",
-                      "Support for various body parts including joints and muscles",
-                      "Education on proper application and care",
-                      "Integration with overall treatment plan",
-                      "Regular monitoring and adjustment as needed"
-                    ].map((item, index) => (
-                      <motion.li key={index} variants={staggerItem}>• {item}</motion.li>
+                    {lifestyleTips.map((tip, idx) => (
+                      <motion.li key={idx} variants={staggerItem}>• {tip}</motion.li>
                     ))}
                   </motion.ul>
                 </motion.div>
               )}
             </motion.section>
 
-            {/* Anti-Inflammatory Exercises Section - Animated */}
+            {/* Comprehensive Care */}
             <motion.section 
-              id="exercises" 
+              id="comprehensive-care"
               className="mb-16"
-              ref={exercisesRef}
+              ref={comprehensiveRef}
               variants={fadeInUp}
               initial="hidden"
-              animate={exercisesInView ? "visible" : "hidden"}
+              animate={comprehensiveInView ? "visible" : "hidden"}
             >
               <div className="flex items-center mb-8">
-                <h2 className="text-3xl font-bold text-gray-900">Anti-Inflammatory Exercises</h2>
+                <h2 className="text-3xl font-bold text-gray-900">Comprehensive Care at Mobiphysio</h2>
                 <button 
-                  onClick={() => toggleSection('exercises')}
+                  onClick={() => toggleSection('comprehensive-care')}
                   className="ml-auto w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white transition-transform duration-200"
-                  style={{ transform: expandedSections['exercises'] ? 'rotate(180deg)' : 'rotate(0deg)' }}
+                  style={{ transform: expandedSections['comprehensive-care'] ? 'rotate(180deg)' : 'rotate(0deg)' }}
                 >
                   <ChevronDown className="w-5 h-5" />
                 </button>
               </div>
-              
-              {expandedSections['exercises'] && (
+              {expandedSections['comprehensive-care'] && (
                 <motion.div 
                   className="bg-white rounded-lg p-8 shadow-sm border border-gray-200"
                   variants={fadeInUp}
@@ -545,7 +538,7 @@ const SwellingPage: React.FC = () => {
                   transition={{ delay: 0.2 }}
                 >
                   <p className="text-gray-700 leading-relaxed text-lg mb-6">
-                    Our physiotherapists design exercises to strengthen muscles, enhance stability, and reduce the risk of re-injury. These carefully structured programs promote healing while preventing future complications.
+                    At Mobiphysio, we understand that PCOD affects every aspect of your life. Our holistic approach addresses not just the physical symptoms but also the emotional and psychological challenges that come with this condition.
                   </p>
                   <motion.div 
                     className="grid md:grid-cols-2 gap-6"
@@ -554,21 +547,21 @@ const SwellingPage: React.FC = () => {
                     animate="visible"
                   >
                     <motion.div variants={staggerItem}>
-                      <h4 className="font-semibold text-gray-900 mb-3">Strengthening Exercises:</h4>
+                      <h4 className="font-semibold text-gray-900 mb-3">Physical Health Focus:</h4>
                       <ul className="space-y-2 text-gray-700">
-                        <li>• Progressive resistance training</li>
-                        <li>• Core stabilization exercises</li>
-                        <li>• Sport-specific movements</li>
-                        <li>• Functional strength building</li>
+                        <li>• Customized exercise programs</li>
+                        <li>• Weight management support</li>
+                        <li>• Hormonal balance techniques</li>
+                        <li>• Pain and discomfort relief</li>
                       </ul>
                     </motion.div>
                     <motion.div variants={staggerItem}>
-                      <h4 className="font-semibold text-gray-900 mb-3">Mobility & Flexibility:</h4>
+                      <h4 className="font-semibold text-gray-900 mb-3">Emotional Well-being:</h4>
                       <ul className="space-y-2 text-gray-700">
-                        <li>• Range of motion exercises</li>
-                        <li>• Gentle stretching routines</li>
-                        <li>• Joint mobilization techniques</li>
-                        <li>• Balance and coordination training</li>
+                        <li>• Stress management strategies</li>
+                        <li>• Mental health support</li>
+                        <li>• Confidence building</li>
+                        <li>• Lifestyle counseling</li>
                       </ul>
                     </motion.div>
                   </motion.div>
@@ -576,113 +569,7 @@ const SwellingPage: React.FC = () => {
               )}
             </motion.section>
 
-            {/* Manual Lymphatic Drainage Section - Animated */}
-            <motion.section 
-              id="lymphatic-drainage" 
-              className="mb-16"
-              ref={lymphaticRef}
-              variants={fadeInUp}
-              initial="hidden"
-              animate={lymphaticInView ? "visible" : "hidden"}
-            >
-              <div className="flex items-center mb-8">
-                <h2 className="text-3xl font-bold text-gray-900">Manual Lymphatic Drainage (MLD)</h2>
-                <button 
-                  onClick={() => toggleSection('lymphatic-drainage')}
-                  className="ml-auto w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white transition-transform duration-200"
-                  style={{ transform: expandedSections['lymphatic-drainage'] ? 'rotate(180deg)' : 'rotate(0deg)' }}
-                >
-                  <ChevronDown className="w-5 h-5" />
-                </button>
-              </div>
-              
-              {expandedSections['lymphatic-drainage'] && (
-                <motion.div 
-                  className="bg-white rounded-lg p-8 shadow-sm border border-gray-200"
-                  variants={fadeInUp}
-                  initial="hidden"
-                  animate="visible"
-                  transition={{ delay: 0.2 }}
-                >
-                  <p className="text-gray-700 leading-relaxed text-lg mb-6">
-                    Our skilled therapists use gentle manual techniques to stimulate the lymphatic system, promoting efficient fluid drainage and reducing swelling. This specialized treatment is particularly effective for post-injury inflammation management.
-                  </p>
-                  <motion.ul 
-                    className="grid md:grid-cols-2 gap-4 text-gray-700"
-                    variants={staggerContainer}
-                    initial="hidden"
-                    animate="visible"
-                  >
-                    {[
-                      "Gentle, rhythmic massage techniques",
-                      "Stimulation of lymphatic flow",
-                      "Reduction of post-injury swelling",
-                      "Enhanced tissue healing",
-                      "Improved circulation",
-                      "Pain and tension relief",
-                      "Accelerated recovery process",
-                      "Non-invasive treatment approach"
-                    ].map((item, index) => (
-                      <motion.li key={index} variants={staggerItem}>• {item}</motion.li>
-                    ))}
-                  </motion.ul>
-                </motion.div>
-              )}
-            </motion.section>
-
-            {/* Cryotherapy Section - Animated */}
-            <motion.section 
-              id="cryotherapy" 
-              className="mb-16"
-              ref={cryotherapyRef}
-              variants={fadeInUp}
-              initial="hidden"
-              animate={cryotherapyInView ? "visible" : "hidden"}
-            >
-              <div className="flex items-center mb-8">
-                <h2 className="text-3xl font-bold text-gray-900">Cryotherapy Treatment</h2>
-                <button 
-                  onClick={() => toggleSection('cryotherapy')}
-                  className="ml-auto w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white transition-transform duration-200"
-                  style={{ transform: expandedSections['cryotherapy'] ? 'rotate(180deg)' : 'rotate(0deg)' }}
-                >
-                  <ChevronDown className="w-5 h-5" />
-                </button>
-              </div>
-              
-              {expandedSections['cryotherapy'] && (
-                <motion.div 
-                  className="bg-white rounded-lg p-8 shadow-sm border border-gray-200"
-                  variants={fadeInUp}
-                  initial="hidden"
-                  animate="visible"
-                  transition={{ delay: 0.2 }}
-                >
-                  <p className="text-gray-700 leading-relaxed text-lg mb-6">
-                    <strong>Cryotherapy involves the application of cold temperatures to the body, offering therapeutic benefits for pain management.</strong> This non-invasive technique can help reduce inflammation, alleviate pain, and enhance the body's natural healing processes.
-                  </p>
-                  <motion.ul 
-                    className="space-y-3 text-gray-700"
-                    variants={staggerContainer}
-                    initial="hidden"
-                    animate="visible"
-                  >
-                    {[
-                      "Reduces inflammation and swelling at the injury site",
-                      "Provides immediate pain relief through numbing effect",
-                      "Decreases metabolic activity to prevent secondary tissue damage",
-                      "Enhances recovery time when applied correctly",
-                      "Safe and non-invasive treatment option",
-                      "Can be combined with other therapeutic modalities"
-                    ].map((item, index) => (
-                      <motion.li key={index} variants={staggerItem}>• {item}</motion.li>
-                    ))}
-                  </motion.ul>
-                </motion.div>
-              )}
-            </motion.section>
-
-            {/* Our Approach Section - Animated */}
+            {/* Final Approach / CTA */}
             <motion.section 
               className="mb-16"
               ref={finalApproachRef}
@@ -694,11 +581,10 @@ const SwellingPage: React.FC = () => {
                 <div className="absolute inset-0">
                   <img 
                     src="/bg-img.png"
-                    alt="Mobiphysio sports injury approach"
+                    alt="Mobiphysio PCOD approach"
                     className="w-full h-full object-cover"
                   />
                 </div>
-                
                 <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
                   <motion.div 
                     className="text-center text-white px-6"
@@ -707,33 +593,32 @@ const SwellingPage: React.FC = () => {
                     animate={finalApproachInView ? "visible" : "hidden"}
                     transition={{ delay: 0.3 }}
                   >
-                    <br></br>
+                  <br></br>
                     <h2 className="text-3xl md:text-3xl font-semibold mb-4">
                       <strong>Our Approach at Mobiphysio</strong>
                     </h2>
                     <p className="text-xl md:text-xl">
                       Ready to get back to peak performance? Let's start your recovery journey!
                     </p>
-                    <br></br>
-                    <br></br>
+                    <br />
                     <motion.div 
                       className='mb-16 text-center'
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                     >
-                        <a href='/book-appointment'>
+                      <a href='/book-appointment'>
                         <Button variant={"interactive-hover"}>
                           <CalendarDays className="mr-2 h-6 w-6" />
                           Book Appointment
                         </Button>
-                        </a>
+                      </a>
                     </motion.div>
                   </motion.div>
                 </div>
               </div>
             </motion.section>
 
-            {/* Explore More Services Section - Animated */}
+            {/* Explore More Services */}
             <motion.section 
               className="mb-16 text-center"
               ref={servicesRef}
@@ -743,7 +628,7 @@ const SwellingPage: React.FC = () => {
             >
               <div className="bg-white rounded-lg p-8 shadow-sm border border-gray-200">
                 <p className="text-gray-700 text-lg mb-6">
-                  Discover our comprehensive range of physiotherapy services designed to help you achieve optimal health and wellness.
+                  Explore our full range of physiotherapy services for holistic health and well-being.
                 </p>
                 <motion.button 
                   className="group relative overflow-hidden bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold py-4 px-8 rounded-lg transition-all duration-300 transform hover:scale-110 shadow-lg hover:shadow-xl"
@@ -762,4 +647,4 @@ const SwellingPage: React.FC = () => {
   );
 };
 
-export default SwellingPage;
+export default PCODPage;

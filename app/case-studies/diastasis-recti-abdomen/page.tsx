@@ -1,7 +1,9 @@
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
-import Banner from '@/components/case-studies/Banner';
-import CaseStudySingleCard from '@/components/case-studies/CaseStudyStack';
+import Banner from '@/components/case-studies/diastasis-recti-abdomen/Banner';
+
+import DiastasisRectiCaseStudy from '@/components/case-studies/diastasis-recti-abdomen/DiastasisRectiPage';
+
 
 
 
@@ -18,7 +20,8 @@ export default function blog() {
       <Header />
       <main>
         <Banner />
-        <CaseStudySingleCard />
+        <br />
+        <DiastasisRectiCaseStudy/>
       </main>
       <Footer />
     </div>

@@ -48,19 +48,19 @@ const Header = () => {
     >
       <div className="container mx-auto px-4 flex justify-between items-center h-20">
         {/* Logo */}
-        <Link href="/" className="flex items-center space-x-2">
+        <Link href="/" className="flex items-center space-x-2 lg:ml-4">
           <Image
-            src="/cb2.png"
+            src="/mobiphysiologo.png"
             alt="CB Physiotherapy Logo"
-            width={160}
-            height={60}
-            className="object-contain"
+            width={0}
+            height={0}
+            className="h-16 w-auto sm:h-16 md:h-16 lg:h-25 object-contain"
             priority
           />
         </Link>
 
-        {/* Desktop GooeyNav - visible from lg and up */}
-        <div className="hidden lg:block">
+        {/* Desktop GooeyNav - visible only from xl and up */}
+        <div className="hidden xl:block">
           <GooeyNav 
             items={menuItems} 
             scrolled={scrolled} 
@@ -68,19 +68,19 @@ const Header = () => {
           />
         </div>
 
-        {/* Desktop Locate Us Button - visible from lg and up */}
-        <div className="hidden lg:flex items-center space-x-4">
+        {/* Desktop Locate Us Button - visible only from xl and up */}
+        <div className="hidden xl:flex items-center space-x-4">
           <a href='/locate-us'>
-          <Button className={cn('bg-transparent hover:bg-chart-2/90', textColorClass)}>
-            <MapIcon className={cn('mr-2 h-4 w-4', iconColorClass)} /> Locate Us
-          </Button>
+            <Button className={cn('bg-transparent hover:bg-chart-2/90', textColorClass)}>
+              <MapIcon className={cn('mr-2 h-4 w-4', iconColorClass)} /> Locate Us
+            </Button>
           </a>
         </div>
 
-        {/* Mobile menu toggle - visible below lg */}
+        {/* Mobile menu toggle - visible below xl */}
         <button
           onClick={toggleMenu}
-          className="lg:hidden p-2 rounded-md"
+          className="xl:hidden p-2 rounded-md"
           aria-expanded={isOpen}
           aria-label="Toggle menu"
         >
@@ -92,10 +92,10 @@ const Header = () => {
         </button>
       </div>
 
-      {/* Mobile dropdown menu - visible below lg */}
+      {/* Mobile dropdown menu - visible below xl */}
       <div
         className={cn(
-          'lg:hidden absolute top-full left-0 right-0 bg-white shadow-md transition-all duration-300 ease-in-out overflow-hidden',
+          'xl:hidden absolute top-full left-0 right-0 bg-white shadow-md transition-all duration-300 ease-in-out overflow-hidden',
           isOpen ? 'max-h-[80vh] opacity-100' : 'max-h-0 opacity-0'
         )}
       >
@@ -118,9 +118,9 @@ const Header = () => {
           ))}
           <li className="px-6 py-4">
             <a href='/locate-us'>
-            <Button className="w-full text-black bg-gray-200 hover:bg-chart-2/90">
-              <MapIcon className="mr-2" /> Locate Us
-            </Button>
+              <Button className="w-full text-black bg-gray-200 hover:bg-chart-2/90">
+                <MapIcon className="mr-2" /> Locate Us
+              </Button>
             </a>
           </li>
         </ul>

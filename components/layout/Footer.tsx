@@ -55,15 +55,15 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="bg-[#3a4732] text-primary-foreground">
+    <footer className="bg-blue-900 text-primary-foreground">
       <div className="container mx-auto px-4 pt-16 pb-8">
         <div className="grid grid-cols-1 md:grid-cols-6 gap-10">
           {/* Logo and Info */}
           <div className="md:col-span-2"> {/* Removed flex and items-start to keep original layout for words */}
-            <Link href="/" className="flex items-center space-x-2 mb-6"> {/* Reverted to original spacing for link */}
-              <div>
+            <Link href="/" className="flex items-center space-x-2 mb-6 md:ml-0 lg:ml-4"> {/* Reverted to original spacing for link */}
+              <div className="-mt-2 sm:-mt-3 md:-mt-4">
                 <Image
-                  src="/cb3.png" // Your Mobiphysio logo path
+                  src="/mobiphysiologo1.png" // Your Mobiphysio logo path
                   alt="Mobiphysio Logo"
                   width={400} // Increased width significantly to make it bigger
                   height={140} // Increased height to maintain aspect ratio and make it bigger

@@ -1,8 +1,8 @@
 'use client';
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { CalendarDays, ArrowRight } from "lucide-react";
+import { CalendarDays } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const backgroundImages = [
@@ -14,12 +14,25 @@ const backgroundImages = [
 ];
 
 const headingText = "Precision Care for Pain-free Mobility";
-const paragraphText = "Transforming physiotherapy with AI-powered diagnosis and personalized treatment pathways delivering effective pain-relief & mobility care across Clinics, Homes & Tele-Rehab.";
+const paragraphText =
+  "Transforming physiotherapy with AI-powered diagnosis and personalized treatment pathways delivering effective pain-relief & mobility care across Clinics, Homes & Tele-Rehab.";
 
 const HeroSection = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [headingDisplay, setHeadingDisplay] = useState('');
   const [paragraphDisplay, setParagraphDisplay] = useState('');
+
+  const isMobile = useMemo(() => typeof window !== 'undefined' && window.innerWidth < 768, []);
+  const prefersReducedMotion = useMemo(() => {
+    if (typeof window !== 'undefined') {
+      return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    }
+    return false;
+  }, []);
+
+  const backgroundStyle = useMemo(() => ({
+    backgroundImage: `url(${backgroundImages[currentIndex]})`,
+  }), [currentIndex]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -31,7 +44,12 @@ const HeroSection = () => {
   useEffect(() => {
     let paragraphTimeout: NodeJS.Timeout;
 
-    const typeText = (text: string, setter: (val: string) => void, delay = 50, doneCallback?: () => void) => {
+    const typeText = (
+      text: string,
+      setter: (val: string) => void,
+      delay = 50,
+      doneCallback?: () => void
+    ) => {
       let i = 0;
       const type = () => {
         if (i <= text.length) {
@@ -45,41 +63,46 @@ const HeroSection = () => {
       type();
     };
 
-    typeText(headingText, setHeadingDisplay, 40, () => {
-      paragraphTimeout = setTimeout(() => {
-        typeText(paragraphText, setParagraphDisplay, 25);
-      }, 300);
-    });
+    if (isMobile || prefersReducedMotion) {
+      setHeadingDisplay(headingText);
+      setParagraphDisplay(paragraphText);
+    } else {
+      typeText(headingText, setHeadingDisplay, 40, () => {
+        paragraphTimeout = setTimeout(() => {
+          typeText(paragraphText, setParagraphDisplay, 25);
+        }, 300);
+      });
+    }
 
-    return () => {
-      clearTimeout(paragraphTimeout);
-    };
-  }, []);
+    return () => clearTimeout(paragraphTimeout);
+  }, [isMobile, prefersReducedMotion]);
 
   return (
-    <section className="relative min-h-screen flex items-center justify-start text-white overflow-hidden">
+    <section className="relative min-h-[80vh] md:min-h-screen flex items-center justify-start text-white overflow-hidden">
       <div className="absolute inset-0 -z-10">
         <AnimatePresence mode="wait">
           <motion.div
             key={currentIndex}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+            initial={prefersReducedMotion ? false : { opacity: 0, scale: 1.02 }}
+            animate={prefersReducedMotion ? false : { opacity: 1, scale: 1 }}
+            exit={prefersReducedMotion ? undefined : { opacity: 0, scale: 0.98 }}
             transition={{ duration: 1 }}
-            className="absolute inset-0 bg-cover bg-center"
-            style={{ backgroundImage: `url(${backgroundImages[currentIndex]})` }}
+            className="absolute inset-0 bg-cover bg-center will-change-transform"
+            style={backgroundStyle}
           />
         </AnimatePresence>
         <div className="absolute inset-0 bg-gradient-to-r from-chart-3/80 to-black/60" />
       </div>
 
-      <div className="text-left max-w-2xl px-4 ml-10">
-        <h1 className="text-4xl md:text-6xl font-bold mb-6 inline-block">
+      <div className="text-left max-w-2xl px-4 ml-6 md:ml-10">
+        <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold mb-6 inline-block">
           <span>{headingDisplay}</span>
-          <span className="inline-block w-[1ch] animate-blink align-baseline">|</span>
+          {!isMobile && !prefersReducedMotion && (
+            <span className="inline-block w-[1ch] animate-blink align-baseline">|</span>
+          )}
         </h1>
 
-        <p className="text-lg md:text-xl mb-8 min-h-[96px]">
+        <p className="text-base sm:text-lg md:text-xl mb-8 min-h-[96px]">
           {paragraphDisplay}
         </p>
 
@@ -88,10 +111,10 @@ const HeroSection = () => {
             <CalendarDays className="mr-2 h-6 w-6" />
             Book Appointment
           </Button>
-          <div className="text-center"> {/* Add text-center to the parent div */}
-             <Button variant={"interactive-hover"}>
-                Request Callback {/* Consider adjusting ml-10 to ml-2 or ml-3 */}
-             </Button>
+          <div>
+            <Button variant={"interactive-hover"}>
+              Request Callback
+            </Button>
           </div>
         </div>
       </div>

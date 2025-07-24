@@ -351,3 +351,7 @@
     object-fit: contain;
   }
 }
+.will-change-transform {
+  will-change: transform, opacity;
+}
+

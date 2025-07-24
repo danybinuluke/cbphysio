@@ -22,7 +22,6 @@ const HeroSection = () => {
   const [headingDisplay, setHeadingDisplay] = useState('');
   const [paragraphDisplay, setParagraphDisplay] = useState('');
 
-  const isMobile = useMemo(() => typeof window !== 'undefined' && window.innerWidth < 768, []);
   const prefersReducedMotion = useMemo(() => {
     if (typeof window !== 'undefined') {
       return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -63,7 +62,7 @@ const HeroSection = () => {
       type();
     };
 
-    if (isMobile || prefersReducedMotion) {
+    if (prefersReducedMotion) {
       setHeadingDisplay(headingText);
       setParagraphDisplay(paragraphText);
     } else {
@@ -75,7 +74,7 @@ const HeroSection = () => {
     }
 
     return () => clearTimeout(paragraphTimeout);
-  }, [isMobile, prefersReducedMotion]);
+  }, [prefersReducedMotion]);
 
   return (
     <section className="relative min-h-[80vh] md:min-h-screen flex items-center justify-start text-white overflow-hidden">
@@ -97,7 +96,7 @@ const HeroSection = () => {
       <div className="text-left max-w-2xl px-4 ml-6 md:ml-10">
         <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold mb-6 inline-block">
           <span>{headingDisplay}</span>
-          {!isMobile && !prefersReducedMotion && (
+          {!prefersReducedMotion && (
             <span className="inline-block w-[1ch] animate-blink align-baseline">|</span>
           )}
         </h1>
